@@ -2,14 +2,18 @@ package ru.mygraduation.friendlylunch;
 
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import ru.mygraduation.friendlylunch.model.Restaurant;
+import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.web.ProfileControllerPrototype;
+
+import java.time.LocalDateTime;
 
 import static ru.mygraduation.friendlylunch.FirstCheckData.*;
 import static ru.mygraduation.friendlylunch.Util.*;
 
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
             ProfileControllerPrototype profileControllerPrototype = appCtx.getBean(ProfileControllerPrototype.class);
 
             System.out.println("\n============ SANDBOX SPRING_MAIN DATA ==========");
@@ -75,6 +79,23 @@ public class SpringMain {
 
             System.out.println("Check voting results: Restaurant ID = Count of votes");
             System.out.println(profileControllerPrototype.checkVotingResults());
+
+            RestaurantRepository restaurantRepository = appCtx.getBean(RestaurantRepository.class);
+            System.out.println("\nGet restaurants with menu updated between previous and next Lunch\n");
+            System.out.println(restaurantRepository.getBetween(previousLunchDateTime(), nextLunchDateTime()));
+            System.out.println("\nGet restaurant with id 100001\n");
+            System.out.println(restaurantRepository.get(100001));
+            System.out.println("\nDelete restaurant with id 100000\n");
+            restaurantRepository.delete(100000);
+            System.out.println(restaurantRepository.getAll());
+            System.out.println("\nSave new restaurant 'Created'\n");
+            restaurantRepository.save(new Restaurant(
+                    null, "CREATED restaurant", "dises of new restaraunt", LocalDateTime.now()));
+            System.out.println(restaurantRepository.getAll());
+            System.out.println("\nSave restaurant with id 100003 to 'Updated'\n");
+            restaurantRepository.save(new Restaurant(
+                    100003, "UPDATED", "updated dishes", LocalDateTime.now()));
+            System.out.println(restaurantRepository.getAll());
         }
     }
 }
