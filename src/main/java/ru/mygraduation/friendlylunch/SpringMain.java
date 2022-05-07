@@ -3,10 +3,13 @@ package ru.mygraduation.friendlylunch;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.mygraduation.friendlylunch.model.Restaurant;
+import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
+import ru.mygraduation.friendlylunch.repository.UserRepository;
 import ru.mygraduation.friendlylunch.web.ProfileControllerPrototype;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static ru.mygraduation.friendlylunch.FirstCheckData.*;
 import static ru.mygraduation.friendlylunch.Util.*;
@@ -96,6 +99,24 @@ public class SpringMain {
             restaurantRepository.save(new Restaurant(
                     100003, "UPDATED", "updated dishes", LocalDateTime.now()));
             System.out.println(restaurantRepository.getAll());
+
+            UserRepository userRepository = appCtx.getBean(UserRepository.class);
+            System.out.println("\nGet all users from Repository\n");
+            System.out.println(userRepository.getAll());
+            System.out.println("\nGet user with id 100008\n");
+            System.out.println(userRepository.get(100008));
+            System.out.println("\nGet ME by email\n");
+            System.out.println(userRepository.getByEmail("a.n.tone@mail.ru"));
+            System.out.println("\nSave NEW user 'Created' and save user 100008 to 'Updated'\n");
+            userRepository.save(new User(
+                    null, "Katherine", "cat@cat.cat",
+                    "p", new Date(),null, null));
+            userRepository.save(new User(100008, "UPDATED", "post",
+                    "psswd", new Date(), null, null));
+            System.out.println(userRepository.getAll());
+            System.out.println("\nDelete user 100006 'Annet'\n");
+            userRepository.delete(100006);
+            System.out.println(userRepository.getAll());
         }
     }
 }
