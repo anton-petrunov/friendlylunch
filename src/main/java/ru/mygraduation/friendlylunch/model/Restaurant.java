@@ -76,6 +76,22 @@ public class Restaurant {
         return getId() == null;
     }
 
+    public void setDishes(String dishes) {
+        this.dishes = dishes;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setDishesUpdateDateTime(LocalDateTime dishesUpdateDateTime) {
+        this.dishesUpdateDateTime = dishesUpdateDateTime;
+    }
+
     @Override
     public String toString() {
         return "Restaurant{" +
