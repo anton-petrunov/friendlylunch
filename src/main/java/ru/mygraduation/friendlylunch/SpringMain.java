@@ -7,7 +7,7 @@ import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 import ru.mygraduation.friendlylunch.web.AdminController;
-import ru.mygraduation.friendlylunch.web.ProfileController;
+import ru.mygraduation.friendlylunch.web.AbstractProfileController;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -17,7 +17,8 @@ import static ru.mygraduation.friendlylunch.Util.previousLunchDateTime;
 
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext(
+                "spring/spring-mvc.xml", "spring/spring-db.xml", "spring/spring-app.xml")) {
 
             System.out.println("\n============ SANDBOX SPRING_MAIN DATA ==========");
 
@@ -56,7 +57,7 @@ public class SpringMain {
             userRepository.delete(100006);
             System.out.println(userRepository.getAll());
 
-            ProfileController profileController = appCtx.getBean(ProfileController.class);
+            AbstractProfileController profileController = appCtx.getBean(AbstractProfileController.class);
 
             System.out.println(profileController.getRestaurantsWithMenuChecked());
             System.out.println(profileController.getRestaurantMenuChecked(100003));

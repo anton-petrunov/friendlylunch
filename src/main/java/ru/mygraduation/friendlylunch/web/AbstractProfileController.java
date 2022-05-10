@@ -2,7 +2,6 @@ package ru.mygraduation.friendlylunch.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Controller;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
@@ -13,14 +12,13 @@ import java.util.stream.Collectors;
 
 import static ru.mygraduation.friendlylunch.Util.*;
 
-@Controller
-public class ProfileController {
+public abstract class AbstractProfileController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
 
-    public ProfileController(UserRepository userRepository, RestaurantRepository restaurantRepository) {
+    public AbstractProfileController(UserRepository userRepository, RestaurantRepository restaurantRepository) {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
     }
