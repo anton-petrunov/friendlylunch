@@ -17,7 +17,10 @@ import static ru.mygraduation.friendlylunch.Util.previousLunchDateTime;
 
 public class SpringMain {
     public static void main(String[] args) {
-        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext("spring/spring-app.xml", "spring/spring-db.xml")) {
+        try (ConfigurableApplicationContext appCtx = new ClassPathXmlApplicationContext(
+                "spring/spring-app.xml",
+                "spring/spring-db.xml",
+                "spring/spring-mvc.xml")) {
 
             System.out.println("\n============ SANDBOX SPRING_MAIN DATA ==========");
 
