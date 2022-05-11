@@ -1,6 +1,10 @@
 package ru.mygraduation.friendlylunch.model;
 
+import org.hibernate.annotations.BatchSize;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.util.CollectionUtils;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -8,7 +12,9 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
+import java.util.Collection;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Set;
 
 import static ru.mygraduation.friendlylunch.model.Restaurant.START_SEQ;
@@ -61,7 +67,19 @@ public class User {
     @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
     private LocalDateTime votingDateTime;
 
-    public User(Integer id, String name, String email, String password, Date registered, Integer votedFor, LocalDateTime votingDateTime) {
+    @Enumerated(EnumType.STRING)
+    @CollectionTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"user_id", "role"}, name = "uk_user_roles")})
+    @Column(name = "role")
+    @ElementCollection(fetch = FetchType.EAGER)
+    @BatchSize(size = 200)
+    @JoinColumn(name = "user_id")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private Set<Role> roles;
+
+    public User(Integer id, String name, String email,
+                String password, Date registered, Integer votedFor,
+                LocalDateTime votingDateTime, Collection<Role> roles) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -69,6 +87,7 @@ public class User {
         this.registered = registered;
         this.votedFor = votedFor;
         this.votingDateTime = votingDateTime;
+        setRoles(roles);
     }
 
     public User() {
@@ -128,6 +147,22 @@ public class User {
 
     public void setVotingDateTime(LocalDateTime votingDateTime) {
         this.votingDateTime = votingDateTime;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public void setVotedFor(Integer votedFor) {
+        this.votedFor = votedFor;
+    }
+
+    public void setRoles(Collection<Role> roles) {
+        this.roles = CollectionUtils.isEmpty(roles) ? EnumSet.noneOf(Role.class) : EnumSet.copyOf(roles);
     }
 
     @Override
