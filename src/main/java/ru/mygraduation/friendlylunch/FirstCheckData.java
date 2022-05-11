@@ -1,6 +1,7 @@
 package ru.mygraduation.friendlylunch;
 
 import ru.mygraduation.friendlylunch.model.Restaurant;
+import ru.mygraduation.friendlylunch.model.Role;
 import ru.mygraduation.friendlylunch.model.User;
 
 import java.time.LocalDateTime;
@@ -8,22 +9,24 @@ import java.time.Month;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 public class FirstCheckData {
     public static User user1 = new User(1, "Anton", "a.n.tone@mail.ru", "psswd",
-            new Date(), 4, LocalDateTime.of(2022, Month.APRIL, 28, 22, 36));
+            new Date(), 4,
+            LocalDateTime.of(2022, Month.APRIL, 28, 22, 36), Set.of(Role.USER));
 
     public static User user2 = new User(2, "Kirill", "gilly@amail.ru", "password", new Date(),
-            3, LocalDateTime.now());
+            3, LocalDateTime.now(), Set.of(Role.USER, Role.ADMIN));
 
     public static User user3 = new User(3, "Annet", "gmail@gmail.com", "pass", new Date(),
-            2, LocalDateTime.of(2022, Month.APRIL, 29, 11, 0));
+            2, LocalDateTime.of(2022, Month.APRIL, 29, 11, 0), Set.of());
 
     public static User user4 = new User(4, "Pirouette", "mao@mao.ru", "smoke", new Date(),
-            1, LocalDateTime.of(2022, Month.MAY, 1, 15, 0));
+            1, LocalDateTime.of(2022, Month.MAY, 1, 15, 0), Set.of());
 
-    public static User user5 = new User(5, "Man whithout vote", "man@without.vote", "", new Date(),
-            0, null);
+    public static User user5 = new User(5, "Man whithout vote", "man@without.vote",
+            "", new Date(), 0, null, Set.of());
 
     public static Restaurant restaurant1 = new Restaurant(1, "Shaurma", "shaurma=180;coffee=60.00",
             LocalDateTime.now());

@@ -3,6 +3,7 @@ package ru.mygraduation.friendlylunch;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import ru.mygraduation.friendlylunch.model.Restaurant;
+import ru.mygraduation.friendlylunch.model.Role;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
@@ -11,6 +12,7 @@ import ru.mygraduation.friendlylunch.web.ProfileController;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.Set;
 
 import static ru.mygraduation.friendlylunch.Util.nextLunchDateTime;
 import static ru.mygraduation.friendlylunch.Util.previousLunchDateTime;
@@ -51,9 +53,9 @@ public class SpringMain {
             System.out.println("\nSave NEW user 'Created' and save user 100008 to 'Updated'\n");
             userRepository.save(new User(
                     null, "Katherine", "cat@cat.cat",
-                    "p", new Date(), null, null));
+                    "p", new Date(), null, null, Set.of()));
             userRepository.save(new User(100008, "UPDATED", "post",
-                    "psswd", new Date(), null, null));
+                    "psswd", new Date(), null, null, Set.of(Role.ADMIN)));
             System.out.println(userRepository.getAll());
             System.out.println("\nDelete user 100006 'Annet'\n");
             userRepository.delete(100006);
@@ -83,8 +85,9 @@ public class SpringMain {
             adminController.deleteRestaurant(100011);
             System.out.println(adminController.getAllRestaurants());
 
-            adminController.createUser(new User(null, "NEW NEW", "abc@def.ru",
-                    "password", new Date(), null, LocalDateTime.of(2022, 1, 1, 10, 0)));
+            adminController.createUser(new User(null, "NEW NEW",
+                    "abc@def.ru", "password", new Date(), null,
+                    LocalDateTime.of(2022, 1, 1, 10, 0), Set.of()));
             System.out.println(adminController.getAllUsers());
 
             User user = adminController.getUser(100012);
