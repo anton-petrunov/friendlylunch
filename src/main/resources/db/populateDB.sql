@@ -1,5 +1,7 @@
-DELETE FROM users;
-DELETE FROM RESTAURANTS;
+DELETE
+FROM users;
+DELETE
+FROM RESTAURANTS;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO RESTAURANTS (NAME, DISHES, UPDATING_DATE_TIME)
@@ -14,3 +16,8 @@ VALUES ('Anton', 'a.n.tone@mail.ru', 'psswd', 100003, '2022-04-28 22:36:00'),
        ('Annet', 'gmail@gmail.com', 'pass', 100001, '2022-04-29 11:00:00'),
        ('Pirouette', 'mao@mao.ru', 'smoke', 100000, '2022-05-01 15:00:00'),
        ('Man whithout vote', 'man@without.vote', '', null, null);
+
+INSERT INTO user_roles (role, user_id)
+VALUES ('USER', 100004),
+       ('ADMIN', 100005),
+       ('USER', 100005);
