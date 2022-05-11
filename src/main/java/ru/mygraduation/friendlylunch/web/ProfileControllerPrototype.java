@@ -1,6 +1,5 @@
 package ru.mygraduation.friendlylunch.web;
 
-import org.springframework.stereotype.Controller;
 import ru.mygraduation.friendlylunch.Util;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
@@ -14,7 +13,6 @@ import static ru.mygraduation.friendlylunch.FirstCheckData.restaurants;
 import static ru.mygraduation.friendlylunch.FirstCheckData.users;
 import static ru.mygraduation.friendlylunch.Util.*;
 
-@Controller
 public class ProfileControllerPrototype {
 
     public ProfileControllerPrototype() {
