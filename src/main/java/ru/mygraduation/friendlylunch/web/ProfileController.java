@@ -7,10 +7,11 @@ import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.mygraduation.friendlylunch.Util.*;
+import static ru.mygraduation.friendlylunch.util.Util.*;
 
 public class ProfileController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -42,7 +43,7 @@ public class ProfileController {
             User user = userRepository.get(userId);
             if (checkVotingAvailability(user) || checkRevoteAvailability(user)) {
                 user.setVotedFor(restaurantId);
-                user.setVotingDateTime(dateTimeNow);
+                user.setVotingDateTime(LocalDateTime.now());
                 userRepository.save(user);
             }
         }
