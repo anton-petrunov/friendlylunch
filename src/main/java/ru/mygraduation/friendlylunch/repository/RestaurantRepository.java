@@ -16,11 +16,7 @@ public class RestaurantRepository {
         this.crudRepository = crudRepository;
     }
 
-    @Transactional
     public Restaurant save(Restaurant restaurant) {
-        if (!restaurant.isNew() && get(restaurant.getId()) == null) {
-            return null;
-        }
         return crudRepository.save(restaurant);
     }
 

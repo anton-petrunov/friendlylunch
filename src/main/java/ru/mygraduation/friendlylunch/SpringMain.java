@@ -80,7 +80,7 @@ public class SpringMain {
             Restaurant restaurant = adminController.getRestaurant(100011);
 
             restaurant.setName("UPDATED MIMINO");
-            adminController.updateRestaurant(restaurant);
+            adminController.updateRestaurant(restaurant, 100000);
             System.out.println(adminController.getRestaurant(restaurant.getId()));
             adminController.deleteRestaurant(100011);
             System.out.println(adminController.getAllRestaurants());
@@ -92,7 +92,7 @@ public class SpringMain {
 
             User user = adminController.getUser(100012);
             user.setName("DOUBLE UPDATED");
-            adminController.updateUser(user);
+            adminController.updateUser(user, 100004);
 
             profileController.vote(100000, 100012);
 
