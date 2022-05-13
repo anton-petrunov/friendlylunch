@@ -5,6 +5,7 @@ import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.util.CollectionUtils;
+import ru.mygraduation.friendlylunch.HasId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -26,7 +27,7 @@ import static ru.mygraduation.friendlylunch.model.Restaurant.START_SEQ;
 })
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements HasId {
 
     public static final String DELETE = "User.delete";
     public static final String BY_EMAIL = "User.getByEmail";
