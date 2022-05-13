@@ -72,10 +72,6 @@ public class Restaurant {
         return dishesUpdateDateTime;
     }
 
-    public boolean isNew() {
-        return getId() == null;
-    }
-
     public void setDishes(String dishes) {
         this.dishes = dishes;
     }
