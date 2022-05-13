@@ -35,13 +35,22 @@ public class AdminController {
         restaurantRepository.delete(restaurantId);
     }
 
+    // TODO -- Implement checkNew
+
     public Restaurant createRestaurant(Restaurant restaurant) {
         log.info("create new restaurant");
         return restaurantRepository.save(restaurant);
     }
 
-    public void updateRestaurant(Restaurant restaurant) {
-        log.info("updateRestaurant {}", restaurant.getId());
+    public void updateRestaurant(Restaurant restaurant, int restaurantId) {
+        log.info("updateRestaurant {} with id={}", restaurant, restaurantId);
+        if (restaurant.getId() == null) {
+            restaurant.setId(restaurantId);
+        } else if (restaurant.getId() != restaurantId) {
+
+            // TODO -- throw new IllegalIllegalRequestDataException(restaurant + " must be with id");
+
+        }
         restaurantRepository.save(restaurant);
     }
 
@@ -53,7 +62,7 @@ public class AdminController {
     public void deleteDishes(int restaurantId) {
         log.info("delete dishes field of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantRepository.get(restaurantId);
-        restaurant.setDishes(null);
+        restaurant.setDishes("");
         restaurantRepository.save(restaurant);
     }
 
@@ -79,13 +88,22 @@ public class AdminController {
         userRepository.delete(userId);
     }
 
+    // TODO -- Implement checkNew
+
     public User createUser(User user) {
         log.info("create new user");
         return userRepository.save(user);
     }
 
-    public void updateUser(User user) {
-        log.info("update user {}", user.getId());
+    public void updateUser(User user, int userId) {
+        log.info("update user {} with id={}", user, userId);
+        if (user.getId() == null) {
+            user.setId(userId);
+        } else if (user.getId() != userId) {
+
+// TODO -- throw new IllegalIllegalRequestDataException(restaurant + " must be with id");
+
+        }
         userRepository.save(user);
     }
 }
