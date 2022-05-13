@@ -32,7 +32,8 @@ public class ProfileController {
 
     public String getRestaurantMenuChecked(int id) {
         log.info("get dishes of checked restaurant {}", id);
-        return restaurantRepository.get(id).getDishes();
+        Restaurant restaurant = restaurantRepository.get(id);
+        return checkMenu(restaurant) ? restaurant.getDishes() : null;
     }
 
     public void vote(int restaurantId, int userId) {

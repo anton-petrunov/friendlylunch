@@ -1,15 +1,15 @@
 package ru.mygraduation.friendlylunch.web;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
 import java.util.List;
+
+import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
 
 @RestController
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -29,8 +29,14 @@ public class ProfileRestController extends ProfileController {
         return super.getRestaurantMenuChecked(id);
     }
 
-    @GetMapping("/status/{id}")
-    public String getUserVote(@PathVariable int id) {
-        return super.getUserVote(id);
+    @PutMapping(value = "/restaurants/{id}/voting", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void vote(@PathVariable int id) {
+        super.vote(id, authUserId());
+    }
+
+    @GetMapping("/status")
+    public String getUserVote() {
+        return super.getUserVote(authUserId());
     }
 }
