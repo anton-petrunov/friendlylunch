@@ -1,4 +1,4 @@
-package ru.mygraduation.friendlylunch;
+package ru.mygraduation.friendlylunch.util;
 
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
@@ -7,9 +7,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 public class Util {
 
@@ -63,13 +60,4 @@ public class Util {
         return checkVote(user) && dateTimeNow.isAfter(previousLunchDateTime()) &&
                 dateTimeNow.isBefore(stopVotingDateTime());
     }
-
-    public static Map<Integer, Restaurant> getRestaurantsWithId(List<Restaurant> restaurantList) {
-        return restaurantList.stream().collect(Collectors.toMap(Restaurant::getId, restaurant -> restaurant));
-    }
-
-    public static Map<Integer, User> getUsersWithId(List<User> userList) {
-        return userList.stream().collect(Collectors.toMap(User::getId, user -> user));
-    }
-
 }
