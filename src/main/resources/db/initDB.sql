@@ -23,8 +23,8 @@ CREATE TABLE users
     email            VARCHAR(255)            NOT NULL,
     password         VARCHAR(255)            NOT NULL,
     registered       TIMESTAMP DEFAULT now() NOT NULL,
-    voted_for        INTEGER,
-    voting_date_time TIMESTAMP,
+    voted_for        INTEGER   DEFAULT NULL,
+    voting_date_time TIMESTAMP DEFAULT NULL,
     CONSTRAINT id_email_idx UNIQUE (id, email),
     FOREIGN KEY (voted_for) REFERENCES restaurants (id) ON DELETE CASCADE
 );
