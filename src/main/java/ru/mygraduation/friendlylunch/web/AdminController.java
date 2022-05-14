@@ -7,7 +7,11 @@ import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
 public class AdminController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -35,22 +39,15 @@ public class AdminController {
         restaurantRepository.delete(restaurantId);
     }
 
-    // TODO -- Implement checkNew
-
     public Restaurant createRestaurant(Restaurant restaurant) {
-        log.info("create new restaurant");
+        log.info("create {}", restaurant);
+        checkNew(restaurant);
         return restaurantRepository.save(restaurant);
     }
 
     public void updateRestaurant(Restaurant restaurant, int restaurantId) {
         log.info("updateRestaurant {} with id={}", restaurant, restaurantId);
-        if (restaurant.getId() == null) {
-            restaurant.setId(restaurantId);
-        } else if (restaurant.getId() != restaurantId) {
-
-            // TODO -- throw new IllegalIllegalRequestDataException(restaurant + " must be with id");
-
-        }
+        assureIdConsistent(restaurant, restaurantId);
         restaurantRepository.save(restaurant);
     }
 
@@ -62,7 +59,7 @@ public class AdminController {
     public void deleteDishes(int restaurantId) {
         log.info("delete dishes field of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantRepository.get(restaurantId);
-        restaurant.setDishes("");
+        restaurant.setDishes(null);
         restaurantRepository.save(restaurant);
     }
 
@@ -70,6 +67,7 @@ public class AdminController {
         log.info("update dishes field of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantRepository.get(restaurantId);
         restaurant.setDishes(dishes);
+        restaurant.setDishesUpdateDateTime(LocalDateTime.now());
         restaurantRepository.save(restaurant);
     }
 
@@ -88,22 +86,15 @@ public class AdminController {
         userRepository.delete(userId);
     }
 
-    // TODO -- Implement checkNew
-
     public User createUser(User user) {
-        log.info("create new user");
+        log.info("create {}", user);
+        checkNew(user);
         return userRepository.save(user);
     }
 
     public void updateUser(User user, int userId) {
-        log.info("update user {} with id={}", user, userId);
-        if (user.getId() == null) {
-            user.setId(userId);
-        } else if (user.getId() != userId) {
-
-// TODO -- throw new IllegalIllegalRequestDataException(restaurant + " must be with id");
-
-        }
+        log.info("update {} with id={}", user, userId);
+        assureIdConsistent(user, userId);
         userRepository.save(user);
     }
 }

@@ -14,8 +14,8 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Set;
 
-import static ru.mygraduation.friendlylunch.Util.nextLunchDateTime;
-import static ru.mygraduation.friendlylunch.Util.previousLunchDateTime;
+import static ru.mygraduation.friendlylunch.util.Util.nextLunchDateTime;
+import static ru.mygraduation.friendlylunch.util.Util.previousLunchDateTime;
 
 public class SpringMain {
     public static void main(String[] args) {

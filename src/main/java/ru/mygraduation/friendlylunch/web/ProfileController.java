@@ -6,11 +6,13 @@ import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
+import ru.mygraduation.friendlylunch.util.exception.NotFoundException;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static ru.mygraduation.friendlylunch.Util.*;
+import static ru.mygraduation.friendlylunch.util.Util.*;
 
 public class ProfileController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -26,14 +28,18 @@ public class ProfileController {
     public List<Restaurant> getRestaurantsWithMenuChecked() {
         log.info("getAll restaurants with menu checked");
         return restaurantRepository.getBetween(previousLunchDateTime(), nextLunchDateTime()).stream()
-                .filter(r -> r.getId() != null)
+                .filter(r -> r.getDishes() != null)
                 .collect(Collectors.toList());
     }
 
     public String getRestaurantMenuChecked(int id) {
         log.info("get dishes of checked restaurant {}", id);
         Restaurant restaurant = restaurantRepository.get(id);
-        return checkMenu(restaurant) ? restaurant.getDishes() : null;
+        if (checkMenu(restaurant)) {
+            return restaurant.getDishes();
+        } else {
+            throw new NotFoundException("Restaurant " + id + " is not available for voting");
+        }
     }
 
     public void vote(int restaurantId, int userId) {
@@ -42,7 +48,7 @@ public class ProfileController {
             User user = userRepository.get(userId);
             if (checkVotingAvailability(user) || checkRevoteAvailability(user)) {
                 user.setVotedFor(restaurantId);
-                user.setVotingDateTime(dateTimeNow);
+                user.setVotingDateTime(LocalDateTime.now());
                 userRepository.save(user);
             }
         }
@@ -51,6 +57,6 @@ public class ProfileController {
     public String getUserVote(int id) {
         User user = userRepository.get(id);
         log.info("get vote of user {}", id);
-        return checkVote(user) ? user.getVotedFor() + "\n" + user.getVotingDateTime().toString() : "Voting is out of day";
+        return user.getVotedFor() + "\n" + user.getVotingDateTime().toString();
     }
 }

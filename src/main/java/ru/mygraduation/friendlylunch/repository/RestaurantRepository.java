@@ -1,7 +1,6 @@
 package ru.mygraduation.friendlylunch.repository;
 
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 
 import java.time.LocalDateTime;

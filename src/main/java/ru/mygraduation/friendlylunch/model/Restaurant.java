@@ -1,6 +1,7 @@
 package ru.mygraduation.friendlylunch.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import ru.mygraduation.friendlylunch.HasId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -18,8 +19,8 @@ import java.time.LocalDateTime;
 })
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(
-        columnNames = {"id", "name"}, name = "restaurants_unique_id_name_idx")})
-public class Restaurant {
+        columnNames = {"name"}, name = "restaurants_unique_id_idx")})
+public class Restaurant implements HasId {
     public static final String ALL = "Restaurant.getAll";
     public static final String DELETE = "Restaurant.delete";
     public static final String GET_BETWEEN = "Restaurant.getBetween";
