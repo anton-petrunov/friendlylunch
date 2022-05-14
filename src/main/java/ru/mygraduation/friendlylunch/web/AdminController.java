@@ -7,6 +7,7 @@ import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
@@ -58,7 +59,7 @@ public class AdminController {
     public void deleteDishes(int restaurantId) {
         log.info("delete dishes field of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantRepository.get(restaurantId);
-        restaurant.setDishes("");
+        restaurant.setDishes(null);
         restaurantRepository.save(restaurant);
     }
 
@@ -66,6 +67,7 @@ public class AdminController {
         log.info("update dishes field of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantRepository.get(restaurantId);
         restaurant.setDishes(dishes);
+        restaurant.setDishesUpdateDateTime(LocalDateTime.now());
         restaurantRepository.save(restaurant);
     }
 

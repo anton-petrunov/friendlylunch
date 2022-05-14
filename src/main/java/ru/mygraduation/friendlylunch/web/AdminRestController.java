@@ -30,7 +30,7 @@ public class AdminRestController extends AdminController {
     }
 
     @Override
-    @PutMapping (value = "/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int id) {
         super.updateRestaurant(restaurant, id);
     }
@@ -77,7 +77,7 @@ public class AdminRestController extends AdminController {
     }
 
     @Override
-    @GetMapping ("/users")
+    @GetMapping("/users")
     public List<User> getAllUsers() {
         return super.getAllUsers();
     }
@@ -95,8 +95,14 @@ public class AdminRestController extends AdminController {
     }
 
     @Override
-    @PutMapping(value = "restaurants/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "restaurants/{restaurantId}/dishes/deleting", consumes = MediaType.APPLICATION_JSON_VALUE)
     public void deleteDishes(@PathVariable int restaurantId) {
         super.deleteDishes(restaurantId);
+    }
+
+    @Override
+    @PutMapping(value = "restaurants/{restaurantId}/dishes/updating", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public void updateDishes(@RequestBody String dishes, @PathVariable int restaurantId) {
+        super.updateDishes(dishes, restaurantId);
     }
 }
