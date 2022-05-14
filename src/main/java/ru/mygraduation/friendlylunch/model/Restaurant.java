@@ -19,7 +19,7 @@ import java.time.LocalDateTime;
 })
 @Entity
 @Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(
-        columnNames = {"id", "name"}, name = "restaurants_unique_id_name_idx")})
+        columnNames = {"name"}, name = "restaurants_unique_id_idx")})
 public class Restaurant implements HasId {
     public static final String ALL = "Restaurant.getAll";
     public static final String DELETE = "Restaurant.delete";

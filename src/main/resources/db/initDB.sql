@@ -13,8 +13,8 @@ CREATE TABLE restaurants
     updating_date_time TIMESTAMP
 
 );
-CREATE UNIQUE INDEX restaurants_unique_id_name_idx
-    ON restaurants (id, name);
+CREATE UNIQUE INDEX restaurants_unique_id_idx
+    ON restaurants (name);
 
 CREATE TABLE users
 (
