@@ -13,6 +13,8 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serial;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Date;
@@ -28,7 +30,9 @@ import static ru.mygraduation.friendlylunch.model.Restaurant.START_SEQ;
 })
 @Entity
 @Table(name = "users")
-public class User implements HasId {
+public class User implements HasId, Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
 
     public static final String DELETE = "User.delete";
     public static final String BY_EMAIL = "User.getByEmail";
@@ -178,6 +182,7 @@ public class User implements HasId {
                 ", registered=" + registered +
                 ", votedFor=" + votedFor +
                 ", votingDateTime=" + votingDateTime +
+                ", roles=" + roles +
                 '}';
     }
 }
