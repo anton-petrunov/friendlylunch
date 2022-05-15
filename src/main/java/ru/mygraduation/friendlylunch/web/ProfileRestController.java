@@ -2,11 +2,15 @@ package ru.mygraduation.friendlylunch.web;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
+import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
+import java.net.URI;
 import java.util.List;
 
 import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
@@ -38,5 +42,14 @@ public class ProfileRestController extends ProfileController {
     @GetMapping("/status")
     public String getUserVote() {
         return super.getUserVote(authUserId());
+    }
+
+    @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
+    public ResponseEntity<User> register(@RequestBody User user) {
+        User created = super.create(user);
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/").build().toUri();
+        return ResponseEntity.created(uriOfNewResource).body(created);
     }
 }

@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.mygraduation.friendlylunch.util.Util.*;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
 public class ProfileController {
     private final Logger log = LoggerFactory.getLogger(getClass());
@@ -58,5 +59,11 @@ public class ProfileController {
         User user = userRepository.get(id);
         log.info("get vote of user {}", id);
         return user.getVotedFor() + "\n" + user.getVotingDateTime().toString();
+    }
+
+    public User create(User user) {
+        log.info("create {}", user);
+        checkNew(user);
+        return userRepository.save(user);
     }
 }
