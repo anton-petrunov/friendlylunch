@@ -15,7 +15,7 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/admin", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/rest/admin", produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AdminController {
 
     public AdminRestController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {

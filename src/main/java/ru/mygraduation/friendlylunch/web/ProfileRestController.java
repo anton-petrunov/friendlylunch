@@ -17,7 +17,7 @@ import java.util.List;
 import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
 
 @RestController
-@RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = "/rest/profile", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController extends ProfileController {
 
     public ProfileRestController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
@@ -45,7 +45,7 @@ public class ProfileRestController extends ProfileController {
         return super.getUserVote(authUserId());
     }
 
-    @PostMapping(value = "/registration", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@RequestBody User user) {
         User created = super.create(user);
