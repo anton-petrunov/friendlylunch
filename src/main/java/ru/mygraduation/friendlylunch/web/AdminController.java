@@ -2,6 +2,7 @@ package ru.mygraduation.friendlylunch.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
@@ -10,6 +11,7 @@ import ru.mygraduation.friendlylunch.repository.UserRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static ru.mygraduation.friendlylunch.util.Util.prepareToSave;
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
@@ -18,10 +20,12 @@ public class AdminController {
 
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public AdminController(UserRepository userRepository, RestaurantRepository restaurantRepository) {
+    public AdminController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Restaurant> getAllRestaurants() {
@@ -89,12 +93,16 @@ public class AdminController {
     public User createUser(User user) {
         log.info("create {}", user);
         checkNew(user);
-        return userRepository.save(user);
+        return prepareAndSave(user);
     }
 
     public void updateUser(User user, int userId) {
         log.info("update {} with id={}", user, userId);
         assureIdConsistent(user, userId);
-        userRepository.save(user);
+        prepareAndSave(user);
+    }
+
+    private User prepareAndSave(User user) {
+        return userRepository.save(prepareToSave(user, passwordEncoder));
     }
 }

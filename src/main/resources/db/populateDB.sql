@@ -11,11 +11,11 @@ VALUES ('Shaurma', 'shaurma=180;coffee=60.00', now()),
        ('Funny Fish', 'Fish stake=310.9;Sushi=500.20', now());
 
 INSERT INTO users (NAME, EMAIL, PASSWORD, VOTED_FOR, VOTING_DATE_TIME)
-VALUES ('User', 'user@yandex.ru', 'password', 100003, '2022-04-28 22:36:00'),
-       ('Admin', 'admin@gmail.com', 'admin', 100002, now()),
-       ('Annet', 'gmail@gmail.com', 'pass', 100001, '2022-04-29 11:00:00'),
-       ('Pirouette', 'mao@mao.ru', 'smoke', 100000, '2022-05-01 15:00:00'),
-       ('Man whithout vote', 'man@without.vote', '', null, null);
+VALUES ('User', 'user@yandex.ru', '{noop}password', 100003, '2022-04-28 22:36:00'),
+       ('Admin', 'admin@gmail.com', '{noop}admin', 100002, now()),
+       ('Annet', 'gmail@gmail.com', '{noop}pass', 100001, '2022-04-29 11:00:00'),
+       ('Pirouette', 'mao@mao.ru', '{noop}smoke', 100000, '2022-05-01 15:00:00'),
+       ('Man whithout vote', 'man@without.vote', '{noop}', null, null);
 
 INSERT INTO user_roles (role, user_id)
 VALUES ('USER', 100004),

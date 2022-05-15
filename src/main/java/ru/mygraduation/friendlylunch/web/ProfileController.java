@@ -2,6 +2,7 @@ package ru.mygraduation.friendlylunch.web;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
@@ -20,10 +21,12 @@ public class ProfileController {
 
     private UserRepository userRepository;
     private RestaurantRepository restaurantRepository;
+    private PasswordEncoder passwordEncoder;
 
-    public ProfileController(UserRepository userRepository, RestaurantRepository restaurantRepository) {
+    public ProfileController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.restaurantRepository = restaurantRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public List<Restaurant> getRestaurantsWithMenuChecked() {
@@ -61,9 +64,15 @@ public class ProfileController {
         return user.getVotedFor() + "\n" + user.getVotingDateTime().toString();
     }
 
+    // todo REFACTOR User Create
+
     public User create(User user) {
         log.info("create {}", user);
         checkNew(user);
-        return userRepository.save(user);
+        return prepareAndSave(user);
+    }
+
+    private User prepareAndSave(User user) {
+        return userRepository.save(prepareToSave(user, passwordEncoder));
     }
 }

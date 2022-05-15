@@ -1,5 +1,6 @@
 package ru.mygraduation.friendlylunch.util;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 
@@ -56,5 +57,11 @@ public class Util {
         LocalDateTime dateTimeNow = LocalDateTime.now();
         return checkVote(user) && dateTimeNow.isAfter(previousLunchDateTime()) &&
                 dateTimeNow.isBefore(stopVotingDateTime());
+    }
+
+    public static User prepareToSave(User user, PasswordEncoder passwordEncoder) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setEmail(user.getEmail().toLowerCase());
+        return user;
     }
 }

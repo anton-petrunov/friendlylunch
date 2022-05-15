@@ -3,6 +3,7 @@ package ru.mygraduation.friendlylunch.web;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
@@ -19,8 +20,8 @@ import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
 @RequestMapping(value = "/", produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController extends ProfileController {
 
-    public ProfileRestController(UserRepository userRepository, RestaurantRepository restaurantRepository) {
-        super(userRepository, restaurantRepository);
+    public ProfileRestController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
+        super(userRepository, restaurantRepository, passwordEncoder);
     }
 
     @GetMapping("/restaurants")
