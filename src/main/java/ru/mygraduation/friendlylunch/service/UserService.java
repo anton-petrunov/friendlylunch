@@ -1,21 +1,33 @@
 package ru.mygraduation.friendlylunch.service;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import ru.mygraduation.friendlylunch.AuthorizedUser;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
 
+import java.util.List;
+
+import static ru.mygraduation.friendlylunch.util.Util.prepareToSave;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
+
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
 
-    @Autowired
-    UserRepository userRepository;
+    private final PasswordEncoder passwordEncoder;
+
+    private final UserRepository userRepository;
+
+    public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public AuthorizedUser loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = userRepository.getByEmail(email.toLowerCase());
@@ -23,5 +35,36 @@ public class UserService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " is not found");
         }
         return new AuthorizedUser(user);
+    }
+
+    public List<User> getAllUsers() {
+        return userRepository.getAll();
+    }
+
+    public User getUser(int userId) {
+        return userRepository.get(userId);
+    }
+
+    public void deleteUser(int userId) {
+        userRepository.delete(userId);
+    }
+
+    public User createUser(User user) {
+        checkNew(user);
+        return prepareAndSave(user);
+    }
+
+    public void updateUser(User user, int userId) {
+        assureIdConsistent(user, userId);
+        prepareAndSave(user);
+    }
+
+    private User prepareAndSave(User user) {
+        return userRepository.save(prepareToSave(user, passwordEncoder));
+    }
+
+    public void updateWithoutPasswordEncoding(User user, int id) {
+        assureIdConsistent(user, id);
+        userRepository.save(user);
     }
 }
