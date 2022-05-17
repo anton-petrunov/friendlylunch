@@ -3,10 +3,12 @@ package ru.mygraduation.friendlylunch.web;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Controller;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
+import springfox.documentation.annotations.ApiIgnore;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,6 +17,8 @@ import static ru.mygraduation.friendlylunch.util.Util.prepareToSave;
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
+@ApiIgnore
+@Controller
 public class AdminController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 

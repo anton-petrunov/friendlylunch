@@ -6,14 +6,6 @@
 
     <http pattern="/resources/**" security="none"/>
 
-    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
-        <http-basic/>
-        <intercept-url pattern="/rest/admin/**" access="hasRole('ADMIN')"/>
-        <intercept-url pattern="/rest/profile" method="POST" access="isAnonymous()"/>
-        <intercept-url pattern="/rest/profile/**" access="isAuthenticated()"/>
-        <csrf disabled="true"/>
-    </http>
-
     <beans:bean class="org.springframework.security.crypto.factory.PasswordEncoderFactories" id="passwordEncoder"
                 factory-method="createDelegatingPasswordEncoder"/>
 
@@ -22,4 +14,15 @@
             <password-encoder ref="passwordEncoder"/>
         </authentication-provider>
     </authentication-manager>
+
+    <http pattern="/**" use-expressions="true" name="restSecurityFilterChain" create-session="stateless">
+        <http-basic/>
+        <intercept-url pattern="/rest/admin/**" access="hasRole('ADMIN')"/>
+        <intercept-url pattern="/rest/profile" method="POST" access="isAnonymous()"/>
+        <intercept-url pattern="/rest/profile/**" access="isAuthenticated()"/>
+        <intercept-url pattern="/swagger-ui.html" access="permitAll()"/>
+        <intercept-url pattern="/swagger-resources/**" access="permitAll()"/>
+        <intercept-url pattern="/v2/api-docs/**" access="permitAll()"/>
+        <csrf disabled="true"/>
+    </http>
 </beans:beans>

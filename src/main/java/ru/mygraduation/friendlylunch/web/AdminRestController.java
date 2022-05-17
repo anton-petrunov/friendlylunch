@@ -23,6 +23,7 @@ public class AdminRestController extends AdminController {
     }
 
     @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Restaurant> createRestaurantWithLocation(@RequestBody Restaurant restaurant) {
         Restaurant created = super.createRestaurant(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -33,6 +34,7 @@ public class AdminRestController extends AdminController {
 
     @Override
     @PutMapping(value = "/restaurants/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateRestaurant(@RequestBody Restaurant restaurant, @PathVariable int id) {
         super.updateRestaurant(restaurant, id);
     }
@@ -57,6 +59,7 @@ public class AdminRestController extends AdminController {
     }
 
     @PostMapping(value = "/users", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> createUserWithLocation(@RequestBody User user) {
         User created = super.createUser(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
@@ -97,13 +100,13 @@ public class AdminRestController extends AdminController {
     }
 
     @Override
-    @DeleteMapping(value = "/restaurants/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @DeleteMapping(value = "/restaurants/{restaurantId}/dishes")
     public void deleteDishes(@PathVariable int restaurantId) {
         super.deleteDishes(restaurantId);
     }
 
     @Override
-    @PutMapping(value = "/restaurants/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurants/{restaurantId}/dishes")
     public void updateDishes(@RequestBody String dishes, @PathVariable int restaurantId) {
         super.updateDishes(dishes, restaurantId);
     }

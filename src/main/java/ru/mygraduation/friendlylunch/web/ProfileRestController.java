@@ -34,7 +34,7 @@ public class ProfileRestController extends ProfileController {
         return super.getRestaurantMenuChecked(id);
     }
 
-    @PutMapping(value = "/restaurants/{id}/voting", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @PutMapping(value = "/restaurants/{id}/voting")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void vote(@PathVariable int id) {
         super.vote(id, authUserId());
