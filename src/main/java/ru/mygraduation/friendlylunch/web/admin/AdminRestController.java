@@ -1,26 +1,21 @@
-package ru.mygraduation.friendlylunch.web;
+package ru.mygraduation.friendlylunch.web.admin;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
-import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
-import ru.mygraduation.friendlylunch.repository.UserRepository;
 
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/rest/admin", produces = MediaType.APPLICATION_JSON_VALUE)
-public class AdminRestController extends AdminController {
+@RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
+public class AdminRestController extends AbstractAdminController {
 
-    public AdminRestController(UserRepository userRepository, RestaurantRepository restaurantRepository, PasswordEncoder passwordEncoder) {
-        super(userRepository, restaurantRepository, passwordEncoder);
-    }
+    static final String REST_URL = "/rest/admin";
 
     @PostMapping(value = "/restaurants", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)

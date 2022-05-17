@@ -1,4 +1,4 @@
-package ru.mygraduation.friendlylunch.web;
+package ru.mygraduation.friendlylunch.web.profile;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
-import ru.mygraduation.friendlylunch.web.profile.AbstractProfileController;
 
 import java.net.URI;
 import java.util.List;
@@ -15,8 +14,10 @@ import java.util.List;
 import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
 
 @RestController
-@RequestMapping(value = "/rest/profile", produces = MediaType.APPLICATION_JSON_VALUE)
+@RequestMapping(value = ProfileRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileRestController extends AbstractProfileController {
+
+    static final String REST_URL = "/rest/profile";
 
     @GetMapping("/restaurants")
     public List<Restaurant> getAll() {

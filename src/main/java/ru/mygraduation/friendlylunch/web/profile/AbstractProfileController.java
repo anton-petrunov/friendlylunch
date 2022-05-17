@@ -3,7 +3,6 @@ package ru.mygraduation.friendlylunch.web.profile;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.service.RestaurantAndDishService;
@@ -17,7 +16,6 @@ import java.util.stream.Collectors;
 import static ru.mygraduation.friendlylunch.util.Util.*;
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
-@Controller
 public abstract class AbstractProfileController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 

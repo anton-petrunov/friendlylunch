@@ -7,8 +7,8 @@ import ru.mygraduation.friendlylunch.model.Role;
 import ru.mygraduation.friendlylunch.model.User;
 import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import ru.mygraduation.friendlylunch.repository.UserRepository;
-import ru.mygraduation.friendlylunch.web.AdminController;
-import ru.mygraduation.friendlylunch.web.ProfileController;
+import ru.mygraduation.friendlylunch.web.admin.AbstractAdminController;
+import ru.mygraduation.friendlylunch.web.profile.AbstractProfileController;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -61,50 +61,50 @@ public class SpringMain {
             userRepository.delete(100006);
             System.out.println(userRepository.getAll());
 
-            ProfileController profileController = appCtx.getBean(ProfileController.class);
+            AbstractProfileController AbstractProfileController = appCtx.getBean(AbstractProfileController.class);
 
-            System.out.println(profileController.getRestaurantsWithMenuChecked());
-            System.out.println(profileController.getRestaurantMenuChecked(100003));
-            profileController.vote(100000, 100004);
+            System.out.println(AbstractProfileController.getRestaurantsWithMenuChecked());
+            System.out.println(AbstractProfileController.getRestaurantMenuChecked(100003));
+            AbstractProfileController.vote(100000, 100004);
             System.out.println(userRepository.get(100004));
-            System.out.println(profileController.getUserVote(100004));
-            System.out.println(profileController.getUserVote(100007));
+            System.out.println(AbstractProfileController.getUserVote(100004));
+            System.out.println(AbstractProfileController.getUserVote(100007));
 
-            AdminController adminController = appCtx.getBean(AdminController.class);
+            AbstractAdminController abstractAdminController = appCtx.getBean(AbstractAdminController.class);
 
-            System.out.println(adminController.getRestaurant(100000));
-            adminController.createRestaurant(new Restaurant(null, "CREATED MIMINO",
+            System.out.println(abstractAdminController.getRestaurant(100000));
+            abstractAdminController.createRestaurant(new Restaurant(null, "CREATED MIMINO",
                     "irish bear", LocalDateTime.now()));
-            System.out.println(adminController.getAllRestaurants());
-            System.out.println(adminController.getRestaurant(100011));
-            Restaurant restaurant = adminController.getRestaurant(100011);
+            System.out.println(abstractAdminController.getAllRestaurants());
+            System.out.println(abstractAdminController.getRestaurant(100011));
+            Restaurant restaurant = abstractAdminController.getRestaurant(100011);
 
             restaurant.setName("UPDATED MIMINO");
-            adminController.updateRestaurant(restaurant, 100000);
-            System.out.println(adminController.getRestaurant(restaurant.getId()));
-            adminController.deleteRestaurant(100011);
-            System.out.println(adminController.getAllRestaurants());
+            abstractAdminController.updateRestaurant(restaurant, 100000);
+            System.out.println(abstractAdminController.getRestaurant(restaurant.getId()));
+            abstractAdminController.deleteRestaurant(100011);
+            System.out.println(abstractAdminController.getAllRestaurants());
 
-            adminController.createUser(new User(null, "NEW NEW",
+            abstractAdminController.createUser(new User(null, "NEW NEW",
                     "abc@def.ru", "password", new Date(), null,
                     LocalDateTime.of(2022, 1, 1, 10, 0), Set.of()));
-            System.out.println(adminController.getAllUsers());
+            System.out.println(abstractAdminController.getAllUsers());
 
-            User user = adminController.getUser(100012);
+            User user = abstractAdminController.getUser(100012);
             user.setName("DOUBLE UPDATED");
-            adminController.updateUser(user, 100004);
+            abstractAdminController.updateUser(user, 100004);
 
-            profileController.vote(100000, 100012);
+            AbstractProfileController.vote(100000, 100012);
 
-            System.out.println(adminController.getUser(100012));
-            adminController.deleteUser(100008);
-            System.out.println(adminController.getUser(100008));
+            System.out.println(abstractAdminController.getUser(100012));
+            abstractAdminController.deleteUser(100008);
+            System.out.println(abstractAdminController.getUser(100008));
 
-            System.out.println(adminController.getDishes(100000));
-            adminController.updateDishes("GOOD UPDATED FOOD FOR YOU", 100000);
-            System.out.println(adminController.getDishes(100000));
-            adminController.deleteDishes(100000);
-            System.out.println(adminController.getRestaurant(100000));
+            System.out.println(abstractAdminController.getDishes(100000));
+            abstractAdminController.updateDishes("GOOD UPDATED FOOD FOR YOU", 100000);
+            System.out.println(abstractAdminController.getDishes(100000));
+            abstractAdminController.deleteDishes(100000);
+            System.out.println(abstractAdminController.getRestaurant(100000));
         }
     }
 }
