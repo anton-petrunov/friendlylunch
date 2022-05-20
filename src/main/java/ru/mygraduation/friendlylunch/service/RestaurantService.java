@@ -11,23 +11,23 @@ import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsiste
 import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
 @Service
-public class RestaurantAndDishService {
+public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantAndDishService(RestaurantRepository restaurantRepository) {
+    public RestaurantService(RestaurantRepository restaurantRepository) {
         this.restaurantRepository = restaurantRepository;
     }
 
-    public List<Restaurant> getAllRestaurants() {
+    public List<Restaurant> getAll() {
         return restaurantRepository.getAll();
     }
 
-    public Restaurant getRestaurant(int restaurantId) {
+    public Restaurant get(int restaurantId) {
         return restaurantRepository.get(restaurantId);
     }
 
-    public void deleteRestaurant(int restaurantId) {
+    public void delete(int restaurantId) {
         restaurantRepository.delete(restaurantId);
     }
 
@@ -36,25 +36,8 @@ public class RestaurantAndDishService {
         return restaurantRepository.save(restaurant);
     }
 
-    public void updateRestaurant(Restaurant restaurant, int restaurantId) {
+    public void update(Restaurant restaurant, int restaurantId) {
         assureIdConsistent(restaurant, restaurantId);
-        restaurantRepository.save(restaurant);
-    }
-
-    public String getDishes(int restaurantId) {
-        return getRestaurant(restaurantId).getDishes();
-    }
-
-    public void deleteDishes(int restaurantId) {
-        Restaurant restaurant = restaurantRepository.get(restaurantId);
-        restaurant.setDishes(null);
-        restaurantRepository.save(restaurant);
-    }
-
-    public void updateDishes(String dishes, int restaurantId) {
-        Restaurant restaurant = restaurantRepository.get(restaurantId);
-        restaurant.setDishes(dishes);
-        restaurant.setDishesUpdateDateTime(LocalDateTime.now());
         restaurantRepository.save(restaurant);
     }
 

@@ -5,7 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
-import ru.mygraduation.friendlylunch.service.RestaurantAndDishService;
+import ru.mygraduation.friendlylunch.service.DishesService;
+import ru.mygraduation.friendlylunch.service.RestaurantService;
 import ru.mygraduation.friendlylunch.service.UserService;
 
 import java.util.List;
@@ -14,73 +15,76 @@ public abstract class AbstractAdminController {
     private final Logger log = LoggerFactory.getLogger(getClass());
 
     @Autowired
-    private RestaurantAndDishService restaurantAndDishService;
+    private RestaurantService restaurantService;
+
+    @Autowired
+    private DishesService dishesService;
 
     @Autowired
     private UserService userService;
 
     public List<Restaurant> getAllRestaurants() {
         log.info("getAll restaurants");
-        return restaurantAndDishService.getAllRestaurants();
+        return restaurantService.getAll();
     }
 
     public Restaurant getRestaurant(int restaurantId) {
         log.info("getRestaurant {}", restaurantId);
-        return restaurantAndDishService.getRestaurant(restaurantId);
+        return restaurantService.get(restaurantId);
     }
 
     public void deleteRestaurant(int restaurantId) {
         log.info("deleteRestaurant {}", restaurantId);
-        restaurantAndDishService.deleteRestaurant(restaurantId);
+        restaurantService.delete(restaurantId);
     }
 
     public Restaurant createRestaurant(Restaurant restaurant) {
         log.info("create {}", restaurant);
-        return restaurantAndDishService.createRestaurant(restaurant);
+        return restaurantService.createRestaurant(restaurant);
     }
 
     public void updateRestaurant(Restaurant restaurant, int restaurantId) {
         log.info("updateRestaurant {} with id={}", restaurant, restaurantId);
-        restaurantAndDishService.updateRestaurant(restaurant, restaurantId);
+        restaurantService.update(restaurant, restaurantId);
     }
 
     public String getDishes(int restaurantId) {
         log.info("getDishes of restaurant {}", restaurantId);
-        return getRestaurant(restaurantId).getDishes();
+        return dishesService.get(restaurantId);
     }
 
     public void deleteDishes(int restaurantId) {
         log.info("delete dishes field of restaurant {}", restaurantId);
-        restaurantAndDishService.deleteDishes(restaurantId);
+        dishesService.delete(restaurantId);
     }
 
     public void updateDishes(String dishes, int restaurantId) {
         log.info("update dishes field of restaurant {}", restaurantId);
-        restaurantAndDishService.updateDishes(dishes, restaurantId);
+        dishesService.update(dishes, restaurantId);
     }
 
     public List<User> getAllUsers() {
         log.info("getAll users");
-        return userService.getAllUsers();
+        return userService.getAll();
     }
 
     public User getUser(int userId) {
         log.info("get user {}", userId);
-        return userService.getUser(userId);
+        return userService.get(userId);
     }
 
     public void deleteUser(int userId) {
         log.info("delete user {}", userId);
-        userService.deleteUser(userId);
+        userService.delete(userId);
     }
 
     public User createUser(User user) {
         log.info("create {}", user);
-        return userService.createUser(user);
+        return userService.create(user);
     }
 
     public void updateUser(User user, int userId) {
         log.info("update {} with id={}", user, userId);
-        userService.updateUser(user, userId);
+        userService.updateWithPasswordEncoding(user, userId);
     }
 }

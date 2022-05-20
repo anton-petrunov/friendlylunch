@@ -37,24 +37,24 @@ public class UserService implements UserDetailsService {
         return new AuthorizedUser(user);
     }
 
-    public List<User> getAllUsers() {
+    public List<User> getAll() {
         return userRepository.getAll();
     }
 
-    public User getUser(int userId) {
+    public User get(int userId) {
         return userRepository.get(userId);
     }
 
-    public void deleteUser(int userId) {
+    public void delete(int userId) {
         userRepository.delete(userId);
     }
 
-    public User createUser(User user) {
+    public User create(User user) {
         checkNew(user);
         return prepareAndSave(user);
     }
 
-    public void updateUser(User user, int userId) {
+    public void updateWithPasswordEncoding(User user, int userId) {
         assureIdConsistent(user, userId);
         prepareAndSave(user);
     }
