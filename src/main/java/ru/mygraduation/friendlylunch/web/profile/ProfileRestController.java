@@ -21,12 +21,12 @@ public class ProfileRestController extends AbstractProfileController {
 
     @GetMapping("/restaurants")
     public List<Restaurant> getAll() {
-        return super.getRestaurantsWithMenuChecked();
+        return super.getRestaurantsWithCheckedDishes();
     }
 
     @GetMapping("/restaurants/{id}")
     public String get(@PathVariable int id) {
-        return super.getRestaurantMenuChecked(id);
+        return super.getDishesOfCheckedRestaurant(id);
     }
 
     @PutMapping(value = "/restaurants/{id}/voting")
@@ -36,14 +36,14 @@ public class ProfileRestController extends AbstractProfileController {
     }
 
     @GetMapping("/status")
-    public String getUserVote() {
-        return super.getUserVote(authUserId());
+    public String getProfileVote() {
+        return super.getProfileVote(authUserId());
     }
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<User> register(@RequestBody User user) {
-        User created = super.create(user);
+        User created = super.createUser(user);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path("/").build().toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);

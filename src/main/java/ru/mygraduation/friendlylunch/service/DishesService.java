@@ -13,18 +13,18 @@ public class DishesService {
     @Autowired
     private RestaurantRepository restaurantRepository;
 
-    public String get(int restaurantId) {
-        return restaurantRepository.get(restaurantId).getDishes();
+    public String get(int id) {
+        return restaurantRepository.get(id).getDishes();
     }
 
-    public void delete(int restaurantId) {
-        Restaurant restaurant = restaurantRepository.get(restaurantId);
+    public void delete(int id) {
+        Restaurant restaurant = restaurantRepository.get(id);
         restaurant.setDishes(null);
         restaurantRepository.save(restaurant);
     }
 
-    public void update(String dishes, int restaurantId) {
-        Restaurant restaurant = restaurantRepository.get(restaurantId);
+    public void update(String dishes, int id) {
+        Restaurant restaurant = restaurantRepository.get(id);
         restaurant.setDishes(dishes);
         restaurant.setDishesUpdateDateTime(LocalDateTime.now());
         restaurantRepository.save(restaurant);

@@ -36,7 +36,7 @@ public class Util {
         }
     }
 
-    public static boolean checkMenu(Restaurant restaurant) {
+    public static boolean checkDishes(Restaurant restaurant) {
         LocalDateTime dishesUpdateDateTime = restaurant.getDishesUpdateDateTime();
         return restaurant.getDishes() != null && dishesUpdateDateTime.isAfter(previousLunchDateTime()) &&
                 dishesUpdateDateTime.isBefore(nextLunchDateTime());

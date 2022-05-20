@@ -41,12 +41,12 @@ public class UserService implements UserDetailsService {
         return userRepository.getAll();
     }
 
-    public User get(int userId) {
-        return userRepository.get(userId);
+    public User get(int id) {
+        return userRepository.get(id);
     }
 
-    public void delete(int userId) {
-        userRepository.delete(userId);
+    public void delete(int id) {
+        userRepository.delete(id);
     }
 
     public User create(User user) {
@@ -54,8 +54,8 @@ public class UserService implements UserDetailsService {
         return prepareAndSave(user);
     }
 
-    public void updateWithPasswordEncoding(User user, int userId) {
-        assureIdConsistent(user, userId);
+    public void updateWithPasswordEncoding(User user, int id) {
+        assureIdConsistent(user, id);
         prepareAndSave(user);
     }
 

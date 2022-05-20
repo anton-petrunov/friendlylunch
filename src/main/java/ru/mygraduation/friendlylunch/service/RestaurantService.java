@@ -23,21 +23,21 @@ public class RestaurantService {
         return restaurantRepository.getAll();
     }
 
-    public Restaurant get(int restaurantId) {
-        return restaurantRepository.get(restaurantId);
+    public Restaurant get(int id) {
+        return restaurantRepository.get(id);
     }
 
-    public void delete(int restaurantId) {
-        restaurantRepository.delete(restaurantId);
+    public void delete(int id) {
+        restaurantRepository.delete(id);
     }
 
-    public Restaurant createRestaurant(Restaurant restaurant) {
-        checkNew(restaurant);
-        return restaurantRepository.save(restaurant);
+    public Restaurant createRestaurant(Restaurant id) {
+        checkNew(id);
+        return restaurantRepository.save(id);
     }
 
-    public void update(Restaurant restaurant, int restaurantId) {
-        assureIdConsistent(restaurant, restaurantId);
+    public void update(Restaurant restaurant, int id) {
+        assureIdConsistent(restaurant, id);
         restaurantRepository.save(restaurant);
     }
 

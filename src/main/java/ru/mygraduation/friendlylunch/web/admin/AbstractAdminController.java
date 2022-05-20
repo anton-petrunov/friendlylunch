@@ -1,28 +1,12 @@
 package ru.mygraduation.friendlylunch.web.admin;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 import ru.mygraduation.friendlylunch.model.User;
-import ru.mygraduation.friendlylunch.service.DishesService;
-import ru.mygraduation.friendlylunch.service.RestaurantService;
-import ru.mygraduation.friendlylunch.service.UserService;
+import ru.mygraduation.friendlylunch.web.AbstractController;
 
 import java.util.List;
 
-public abstract class AbstractAdminController {
-    private final Logger log = LoggerFactory.getLogger(getClass());
-
-    @Autowired
-    private RestaurantService restaurantService;
-
-    @Autowired
-    private DishesService dishesService;
-
-    @Autowired
-    private UserService userService;
-
+public abstract class AbstractAdminController extends AbstractController {
     public List<Restaurant> getAllRestaurants() {
         log.info("getAll restaurants");
         return restaurantService.getAll();
@@ -76,11 +60,6 @@ public abstract class AbstractAdminController {
     public void deleteUser(int userId) {
         log.info("delete user {}", userId);
         userService.delete(userId);
-    }
-
-    public User createUser(User user) {
-        log.info("create {}", user);
-        return userService.create(user);
     }
 
     public void updateUser(User user, int userId) {

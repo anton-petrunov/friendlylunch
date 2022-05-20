@@ -63,12 +63,12 @@ public class SpringMain {
 
             AbstractProfileController AbstractProfileController = appCtx.getBean(AbstractProfileController.class);
 
-            System.out.println(AbstractProfileController.getRestaurantsWithMenuChecked());
-            System.out.println(AbstractProfileController.getRestaurantMenuChecked(100003));
+            System.out.println(AbstractProfileController.getRestaurantsWithCheckedDishes());
+            System.out.println(AbstractProfileController.getDishesOfCheckedRestaurant(100003));
             AbstractProfileController.vote(100000, 100004);
             System.out.println(userRepository.get(100004));
-            System.out.println(AbstractProfileController.getUserVote(100004));
-            System.out.println(AbstractProfileController.getUserVote(100007));
+            System.out.println(AbstractProfileController.getProfileVote(100004));
+            System.out.println(AbstractProfileController.getProfileVote(100007));
 
             AbstractAdminController abstractAdminController = appCtx.getBean(AbstractAdminController.class);
 
