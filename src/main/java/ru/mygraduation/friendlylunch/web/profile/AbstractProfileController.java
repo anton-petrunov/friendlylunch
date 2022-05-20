@@ -7,6 +7,7 @@ import ru.mygraduation.friendlylunch.web.AbstractController;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import static ru.mygraduation.friendlylunch.util.Util.*;
@@ -42,9 +43,10 @@ public abstract class AbstractProfileController extends AbstractController {
         }
     }
 
-    public String getProfileVote(int id) {
+    public Map<String, String> getProfileVote(int id) {
         log.info("get vote of user {}", id);
         User user = userService.get(id);
-        return user.getVotedFor() + "\n" + user.getVotingDateTime().toString();
+        return Map.of("VotedFor", user.getVotedFor().toString(),
+                "VotingDateTime", user.getVotingDateTime().toString());
     }
 }

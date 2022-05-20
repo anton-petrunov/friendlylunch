@@ -11,6 +11,8 @@ import ru.mygraduation.friendlylunch.model.User;
 import java.net.URI;
 import java.util.List;
 
+import static ru.mygraduation.friendlylunch.util.JsonUtil.checkJsonMap;
+
 @RestController
 @RequestMapping(value = AdminRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class AdminRestController extends AbstractAdminController {
@@ -84,6 +86,7 @@ public class AdminRestController extends AbstractAdminController {
 
     @Override
     @DeleteMapping("/users/{userId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@PathVariable int userId) {
         super.deleteUser(userId);
     }
@@ -96,13 +99,16 @@ public class AdminRestController extends AbstractAdminController {
 
     @Override
     @DeleteMapping(value = "/restaurants/{restaurantId}/dishes")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteDishes(@PathVariable int restaurantId) {
         super.deleteDishes(restaurantId);
     }
 
     @Override
-    @PutMapping(value = "/restaurants/{restaurantId}/dishes")
+    @PutMapping(value = "/restaurants/{restaurantId}/dishes", consumes = MediaType.APPLICATION_JSON_VALUE)
+    @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateDishes(@RequestBody String dishes, @PathVariable int restaurantId) {
+        checkJsonMap(dishes);
         super.updateDishes(dishes, restaurantId);
     }
 }

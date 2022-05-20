@@ -5,10 +5,10 @@ FROM RESTAURANTS;
 ALTER SEQUENCE global_seq RESTART WITH 100000;
 
 INSERT INTO RESTAURANTS (NAME, DISHES, UPDATING_DATE_TIME)
-VALUES ('Shaurma', 'shaurma=180;coffee=60.00', now()),
-       ('Fresh Apple Lunches', 'apple=23.0;orange=49;mango=169.45', '2022-04-28 18:30:00'),
-       ('Papa Grill', 'Chicken grill=299.90;Cow grill=349.90', '2022-05-01 14:58:00'),
-       ('Funny Fish', 'Fish stake=310.9;Sushi=500.20', now());
+VALUES ('Shaurma', '{"Shaurma": 180, "Coffee": 69}', now()),
+       ('Fresh Apple Lunches', '{"apple": 23, "orange": 49, "mango": 169}', '2022-04-28 18:30:00'),
+       ('Papa Grill', '{"Chicken grill": 299, "Cow grill": 349}', '2022-05-01 14:58:00'),
+       ('Funny Fish', '{"Fish stake": 310, "Sushi": 500}', now());
 
 INSERT INTO users (NAME, EMAIL, PASSWORD, VOTED_FOR, VOTING_DATE_TIME)
 VALUES ('User', 'user@yandex.ru', '{noop}password', 100003, '2022-04-28 22:36:00'),

@@ -10,6 +10,7 @@ import ru.mygraduation.friendlylunch.model.User;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Map;
 
 import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
 
@@ -36,7 +37,7 @@ public class ProfileRestController extends AbstractProfileController {
     }
 
     @GetMapping("/status")
-    public String getProfileVote() {
+    public Map<String, String> getProfileVote() {
         return super.getProfileVote(authUserId());
     }
 
