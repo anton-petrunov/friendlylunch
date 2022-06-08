@@ -8,7 +8,7 @@ import ru.mygraduation.friendlylunch.service.UserService;
 
 import java.util.List;
 
-public class UserController {
+public abstract class AbstractUserController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
 
