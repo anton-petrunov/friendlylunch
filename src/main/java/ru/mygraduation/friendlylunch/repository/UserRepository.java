@@ -1,38 +1,24 @@
 package ru.mygraduation.friendlylunch.repository;
 
-import org.springframework.data.domain.Sort;
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.jpa.repository.QueryHints;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mygraduation.friendlylunch.model.User;
 
-import java.util.List;
+import javax.persistence.QueryHint;
 
-@Repository
-public class UserRepository {
-    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
+@Transactional(readOnly = true)
+public interface UserRepository extends JpaRepository<User, Integer> {
+    @Transactional
+    @Modifying
+    @Query("DELETE FROM User u WHERE u.id=:id")
+    int delete(@Param("id") int id);
 
-    private final CrudUserRepository crudRepository;
-
-    public UserRepository(CrudUserRepository crudRepository) {
-        this.crudRepository = crudRepository;
-    }
-
-    public User save(User user) {
-        return crudRepository.save(user);
-    }
-
-    public boolean delete(int id) {
-        return crudRepository.delete(id) != 0;
-    }
-
-    public User get(int id) {
-        return crudRepository.findById(id).orElse(null);
-    }
-
-    public User getByEmail(String email) {
-        return crudRepository.getByEmail(email);
-    }
-
-    public List<User> getAll() {
-        return crudRepository.findAll(SORT_NAME_EMAIL);
-    }
+    @QueryHints({
+            @QueryHint(name = org.hibernate.jpa.QueryHints.HINT_PASS_DISTINCT_THROUGH, value = "false")
+    })
+    User getByEmail(String email);
 }

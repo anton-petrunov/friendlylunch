@@ -1,37 +1,27 @@
 package ru.mygraduation.friendlylunch.repository;
 
-import org.springframework.stereotype.Repository;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 import ru.mygraduation.friendlylunch.model.Restaurant;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Repository
-public class RestaurantRepository {
+@Transactional(readOnly = true)
+public interface RestaurantRepository extends JpaRepository<Restaurant, Integer> {
 
-    private final CrudRestaurantRepository crudRepository;
+    @Modifying
+    @Transactional
+    @Query("DELETE FROM Restaurant r WHERE r.id=:id")
+    int delete(@Param("id") int id);
 
-    public RestaurantRepository(CrudRestaurantRepository crudRepository) {
-        this.crudRepository = crudRepository;
-    }
+    @Query("SELECT r FROM Restaurant r ORDER BY r.dishesUpdateDateTime DESC")
+    List<Restaurant> getAll();
 
-    public Restaurant save(Restaurant restaurant) {
-        return crudRepository.save(restaurant);
-    }
-
-    public boolean delete(int id) {
-        return crudRepository.delete(id) != 0;
-    }
-
-    public Restaurant get(int id) {
-        return crudRepository.findById(id).orElse(null);
-    }
-
-    public List<Restaurant> getAll() {
-        return crudRepository.getAll();
-    }
-
-    public List<Restaurant> getBetween(LocalDateTime startDateTime, LocalDateTime endDateTime) {
-        return crudRepository.getBetween(startDateTime, endDateTime);
-    }
+    @Query("SELECT r FROM Restaurant r WHERE r.dishesUpdateDateTime>:startDateTime AND r.dishesUpdateDateTime<:endDateTime")
+    List<Restaurant> getBetween(@Param("startDateTime") LocalDateTime startDateTime,
+                                @Param("endDateTime") LocalDateTime endDateTime);
 }

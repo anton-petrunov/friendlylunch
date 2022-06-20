@@ -2,6 +2,7 @@ package ru.mygraduation.friendlylunch.service;
 
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,8 @@ import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
 public class UserService implements UserDetailsService {
 
+    private static final Sort SORT_NAME_EMAIL = Sort.by(Sort.Direction.ASC, "name", "email");
+
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
@@ -37,16 +40,16 @@ public class UserService implements UserDetailsService {
         return new AuthorizedUser(user);
     }
 
-    public List<User> getAll() {
-        return userRepository.getAll();
+    public void delete(int id) {
+        userRepository.delete(id);
     }
 
     public User get(int id) {
-        return userRepository.get(id);
+        return userRepository.findById(id).orElse(null);
     }
 
-    public void delete(int id) {
-        userRepository.delete(id);
+    public List<User> getAll() {
+        return userRepository.findAll(SORT_NAME_EMAIL);
     }
 
     public User create(User user) {

@@ -15,8 +15,8 @@ public class RestaurantService {
 
     private final RestaurantRepository restaurantRepository;
 
-    public RestaurantService(RestaurantRepository restaurantRepository) {
-        this.restaurantRepository = restaurantRepository;
+    public RestaurantService(RestaurantRepository crudRestaurantRepository) {
+        this.restaurantRepository = crudRestaurantRepository;
     }
 
     public List<Restaurant> getAll() {
@@ -24,7 +24,7 @@ public class RestaurantService {
     }
 
     public Restaurant get(int id) {
-        return restaurantRepository.get(id);
+        return restaurantRepository.findById(id).orElse(null);
     }
 
     public void delete(int id) {
