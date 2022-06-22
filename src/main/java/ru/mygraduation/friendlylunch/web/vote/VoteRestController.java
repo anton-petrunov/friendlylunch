@@ -6,8 +6,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Map;
 
-import static ru.mygraduation.friendlylunch.web.SecurityUtil.authUserId;
-
 @RestController
 @RequestMapping(value = VoteRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class VoteRestController extends VoteController {
@@ -17,11 +15,11 @@ public class VoteRestController extends VoteController {
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void vote(@RequestBody int id) {
-        super.vote(id, authUserId());
+        super.vote(id);
     }
 
     @GetMapping
     public Map<String, String> getVote() {
-        return super.getProfileVote(authUserId());
+        return super.getVote();
     }
 }
