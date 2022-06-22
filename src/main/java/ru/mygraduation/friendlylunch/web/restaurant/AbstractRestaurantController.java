@@ -11,6 +11,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static ru.mygraduation.friendlylunch.util.Util.*;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
 public abstract class AbstractRestaurantController {
 
@@ -36,12 +38,14 @@ public abstract class AbstractRestaurantController {
 
     public Restaurant create(Restaurant restaurant) {
         log.info("create {}", restaurant);
-        return restaurantService.createRestaurant(restaurant);
+        checkNew(restaurant);
+        return restaurantService.create(restaurant);
     }
 
     public void update(Restaurant restaurant, int id) {
         log.info("update {} with id={}", restaurant, id);
-        restaurantService.update(restaurant, id);
+        assureIdConsistent(restaurant, id);
+        restaurantService.update(restaurant);
     }
 
     public List<Restaurant> getRestaurantsWithCheckedDishes() {

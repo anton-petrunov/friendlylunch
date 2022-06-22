@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 import static ru.mygraduation.friendlylunch.util.Util.*;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
 
 public class VoteController {
 
@@ -26,10 +27,11 @@ public class VoteController {
         log.info("vote of user {} for restaurant {}", userId, restaurantId);
         if (checkDishes(restaurantService.get(restaurantId))) {
             User user = userService.get(userId);
+            assureIdConsistent(user, userId);
             if (checkVotingAvailability(user) || checkRevoteAvailability(user)) {
                 user.setVotedFor(restaurantId);
                 user.setVotingDateTime(LocalDateTime.now());
-                userService.updateWithoutPasswordEncoding(user, userId);
+                userService.updateWithoutPasswordEncoding(user);
             }
         }
     }

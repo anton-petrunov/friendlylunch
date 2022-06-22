@@ -7,9 +7,6 @@ import ru.mygraduation.friendlylunch.repository.RestaurantRepository;
 import java.time.LocalDateTime;
 import java.util.List;
 
-import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
-import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
-
 @Service
 public class RestaurantService {
 
@@ -31,13 +28,11 @@ public class RestaurantService {
         restaurantRepository.delete(id);
     }
 
-    public Restaurant createRestaurant(Restaurant id) {
-        checkNew(id);
-        return restaurantRepository.save(id);
+    public Restaurant create(Restaurant restaurant) {
+        return restaurantRepository.save(restaurant);
     }
 
-    public void update(Restaurant restaurant, int id) {
-        assureIdConsistent(restaurant, id);
+    public void update(Restaurant restaurant) {
         restaurantRepository.save(restaurant);
     }
 

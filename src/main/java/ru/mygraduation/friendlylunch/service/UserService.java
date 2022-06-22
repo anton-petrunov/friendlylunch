@@ -14,8 +14,6 @@ import ru.mygraduation.friendlylunch.repository.UserRepository;
 import java.util.List;
 
 import static ru.mygraduation.friendlylunch.util.Util.prepareToSave;
-import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
-import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -53,12 +51,10 @@ public class UserService implements UserDetailsService {
     }
 
     public User create(User user) {
-        checkNew(user);
         return prepareAndSave(user);
     }
 
-    public void updateWithPasswordEncoding(User user, int id) {
-        assureIdConsistent(user, id);
+    public void updateWithPasswordEncoding(User user) {
         prepareAndSave(user);
     }
 
@@ -66,8 +62,7 @@ public class UserService implements UserDetailsService {
         return userRepository.save(prepareToSave(user, passwordEncoder));
     }
 
-    public void updateWithoutPasswordEncoding(User user, int id) {
-        assureIdConsistent(user, id);
+    public void updateWithoutPasswordEncoding(User user) {
         userRepository.save(user);
     }
 }

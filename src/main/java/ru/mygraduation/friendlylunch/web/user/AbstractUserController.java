@@ -8,6 +8,9 @@ import ru.mygraduation.friendlylunch.service.UserService;
 
 import java.util.List;
 
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.assureIdConsistent;
+import static ru.mygraduation.friendlylunch.util.ValidationUtil.checkNew;
+
 public abstract class AbstractUserController {
 
     protected final Logger log = LoggerFactory.getLogger(getClass());
@@ -17,12 +20,14 @@ public abstract class AbstractUserController {
 
     public User create(User user) {
         log.info("create {}", user);
+        checkNew(user);
         return userService.create(user);
     }
 
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
-        userService.updateWithPasswordEncoding(user, id);
+        assureIdConsistent(user, id);
+        userService.updateWithPasswordEncoding(user);
     }
 
     public User get(int id) {
