@@ -25,8 +25,7 @@ CREATE TABLE users
     registered       TIMESTAMP DEFAULT now() NOT NULL,
     voted_for        INTEGER   DEFAULT NULL,
     voting_date_time TIMESTAMP DEFAULT NULL,
-    CONSTRAINT id_email_idx UNIQUE (id, email),
-    FOREIGN KEY (voted_for) REFERENCES restaurants (id) ON DELETE CASCADE
+    FOREIGN KEY (voted_for) REFERENCES restaurants (id) ON DELETE SET NULL
 );
 CREATE UNIQUE INDEX users_unique_email_idx
     ON USERS (email);
