@@ -6,7 +6,6 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.lang.Nullable;
 import org.springframework.util.CollectionUtils;
-import ru.mygraduation.friendlylunch.HasId;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -21,34 +20,11 @@ import java.util.Date;
 import java.util.EnumSet;
 import java.util.Set;
 
-import static ru.mygraduation.friendlylunch.model.Restaurant.START_SEQ;
-
-@NamedQueries({
-        @NamedQuery(name = User.DELETE, query = "DELETE FROM User u WHERE u.id=:id"),
-        @NamedQuery(name = User.BY_EMAIL, query = "SELECT DISTINCT u FROM User u WHERE u.email=?1"),
-        @NamedQuery(name = User.ALL_SORTED, query = "SELECT u FROM User u ORDER BY u.name, u.email"),
-})
 @Entity
 @Table(name = "users")
-public class User implements HasId, Serializable {
+public class User extends AbstractNamedEntity implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
-
-    public static final String DELETE = "User.delete";
-    public static final String BY_EMAIL = "User.getByEmail";
-    public static final String ALL_SORTED = "User.getAllSorted";
-
-    @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    @Column(name = "id")
-    @NotNull
-    private Integer id;
-
-    @NotBlank
-    @Size(min = 2, max = 128)
-    @Column(name = "name", nullable = false)
-    private String name;
 
     @Column(name = "email", nullable = false, unique = true)
     @Email
@@ -87,8 +63,7 @@ public class User implements HasId, Serializable {
     public User(Integer id, String name, String email,
                 String password, Date registered, Integer votedFor,
                 LocalDateTime votingDateTime, Collection<Role> roles) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
         this.email = email;
         this.password = password;
         this.registered = registered;
@@ -116,10 +91,6 @@ public class User implements HasId, Serializable {
         return password;
     }
 
-    public Date getRegistered() {
-        return registered;
-    }
-
     public Integer getVotedFor() {
         return votedFor;
     }
@@ -144,10 +115,6 @@ public class User implements HasId, Serializable {
         this.password = password;
     }
 
-    public void setRegistered(Date registered) {
-        this.registered = registered;
-    }
-
     public void setVotedFor(int votedFor) {
         this.votedFor = votedFor;
     }
@@ -162,10 +129,6 @@ public class User implements HasId, Serializable {
 
     public void setId(Integer id) {
         this.id = id;
-    }
-
-    public void setVotedFor(Integer votedFor) {
-        this.votedFor = votedFor;
     }
 
     public void setRoles(Collection<Role> roles) {

@@ -1,43 +1,16 @@
 package ru.mygraduation.friendlylunch.model;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import ru.mygraduation.friendlylunch.HasId;
 
-import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.validation.constraints.Size;
 import java.time.LocalDateTime;
 
-@NamedQueries({
-        @NamedQuery(name = Restaurant.ALL, query = "SELECT r FROM Restaurant r ORDER BY r.dishesUpdateDateTime DESC"),
-        @NamedQuery(name = Restaurant.DELETE, query = "DELETE FROM Restaurant r WHERE r.id=:id"),
-        @NamedQuery(name = Restaurant.GET_BETWEEN, query = """
-                    SELECT r FROM Restaurant r
-                    WHERE r.dishesUpdateDateTime>:startDateTime AND r.dishesUpdateDateTime<:endDateTime
-                """),
-})
 @Entity
-@Table(name = "restaurants", uniqueConstraints = {@UniqueConstraint(
-        columnNames = {"name"}, name = "restaurants_unique_id_idx")})
-public class Restaurant implements HasId {
-    public static final String ALL = "Restaurant.getAll";
-    public static final String DELETE = "Restaurant.delete";
-    public static final String GET_BETWEEN = "Restaurant.getBetween";
-
-    public static final int START_SEQ = 100000;
-
-    @Id
-    @SequenceGenerator(name = "global_seq", sequenceName = "global_seq", allocationSize = 1, initialValue = START_SEQ)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "global_seq")
-    @Column(name = "id")
-    @NotNull
-    private Integer id;
-
-    @Column(name = "name", nullable = false)
-    @NotBlank
-    @Size(min = 2, max = 120)
-    private String name;
+@Table(name = "restaurants")
+public class Restaurant extends AbstractNamedEntity {
 
     @Column(name = "dishes")
     @Size(min = 2, max = 1200)
@@ -51,8 +24,7 @@ public class Restaurant implements HasId {
     }
 
     public Restaurant(Integer id, String name, String dishes, LocalDateTime dishesUpdateDateTime) {
-        this.id = id;
-        this.name = name;
+        super(id, name);
         this.dishes = dishes;
         this.dishesUpdateDateTime = dishesUpdateDateTime;
     }
