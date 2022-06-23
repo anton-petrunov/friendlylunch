@@ -20,7 +20,7 @@
         </encoder>
     </appender>
 
-    <logger name="ru.mygraduation.friendlylunch" level="debug"/>
+    <logger name="com.github.friendlylunch" level="debug"/>
     <logger name="org.springframework.web.servlet.mvc.method.annotation.ExceptionHandlerExceptionResolver"
             level="debug"/>
     <logger name="org.springframework.security" level="debug"/>
