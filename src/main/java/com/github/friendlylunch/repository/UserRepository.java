@@ -1,12 +1,12 @@
 package com.github.friendlylunch.repository;
 
+import com.github.friendlylunch.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.jpa.repository.QueryHints;
 import org.springframework.data.repository.query.Param;
 import org.springframework.transaction.annotation.Transactional;
-import com.github.friendlylunch.model.User;
 
 import javax.persistence.QueryHint;
 
