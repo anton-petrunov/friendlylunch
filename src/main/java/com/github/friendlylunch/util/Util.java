@@ -1,6 +1,5 @@
 package com.github.friendlylunch.util;
 
-import com.github.friendlylunch.model.Restaurant;
 import com.github.friendlylunch.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -34,29 +33,6 @@ public class Util {
         } else {
             return LocalDateTime.of(dateTimeNow.toLocalDate().plus(1, ChronoUnit.DAYS), STOP_VOTING_TIME);
         }
-    }
-
-    public static boolean checkDishes(Restaurant restaurant) {
-        LocalDateTime dishesUpdateDateTime = restaurant.getDishesUpdateDateTime();
-        return restaurant.getDishes() != null && dishesUpdateDateTime.isAfter(previousLunchDateTime()) &&
-                dishesUpdateDateTime.isBefore(nextLunchDateTime());
-    }
-
-    public static boolean checkVote(User user) {
-        LocalDateTime votingDateTime = user.getVotingDateTime();
-        return user.getVotedFor() > 0 && votingDateTime.isAfter(previousLunchDateTime()) &&
-                votingDateTime.isBefore(nextLunchDateTime());
-    }
-
-    public static boolean checkVotingAvailability(User user) {
-        LocalDateTime votingDateTime = user.getVotingDateTime();
-        return votingDateTime.isBefore(previousLunchDateTime());
-    }
-
-    public static boolean checkRevoteAvailability(User user) {
-        LocalDateTime dateTimeNow = LocalDateTime.now();
-        return checkVote(user) && dateTimeNow.isAfter(previousLunchDateTime()) &&
-                dateTimeNow.isBefore(stopVotingDateTime());
     }
 
     public static User prepareToSave(User user, PasswordEncoder passwordEncoder) {
