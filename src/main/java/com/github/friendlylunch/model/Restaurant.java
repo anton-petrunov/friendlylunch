@@ -1,64 +1,35 @@
 package com.github.friendlylunch.model;
 
-import org.springframework.format.annotation.DateTimeFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.validation.constraints.Size;
-import java.time.LocalDateTime;
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "restaurants")
 public class Restaurant extends AbstractNamedEntity {
 
-    @Column(name = "dishes")
-    @Size(min = 2, max = 1200)
-    private String dishes;
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @OrderBy("date DESC")
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonManagedReference
+    private List<Menu> menus;
 
-    @Column(name = "updating_date_time")
-    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm")
-    private LocalDateTime dishesUpdateDateTime;
+    public Restaurant(Integer id, String name) {
+        super(id, name);
+    }
 
     public Restaurant() {
     }
 
-    public Restaurant(Integer id, String name, String dishes, LocalDateTime dishesUpdateDateTime) {
-        super(id, name);
-        this.dishes = dishes;
-        this.dishesUpdateDateTime = dishesUpdateDateTime;
+    public List<Menu> getMenus() {
+        return menus;
     }
 
-    public Integer getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public String getDishes() {
-        return dishes;
-    }
-
-    public LocalDateTime getDishesUpdateDateTime() {
-        return dishesUpdateDateTime;
-    }
-
-    public void setDishes(String dishes) {
-        this.dishes = dishes;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public void setDishesUpdateDateTime(LocalDateTime dishesUpdateDateTime) {
-        this.dishesUpdateDateTime = dishesUpdateDateTime;
+    public void setMenus(List<Menu> menus) {
+        this.menus = menus;
     }
 
     @Override
@@ -66,8 +37,6 @@ public class Restaurant extends AbstractNamedEntity {
         return "Restaurant{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", dishes='" + dishes + '\'' +
-                ", votingDateTime=" + dishesUpdateDateTime +
                 '}';
     }
 }
