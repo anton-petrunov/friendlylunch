@@ -1,4 +1,4 @@
-package com.github.friendlylunch.util;
+package com.github.friendlylunch.web.json;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
