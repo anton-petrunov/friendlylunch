@@ -4,9 +4,9 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -15,7 +15,7 @@ import java.util.List;
 public class Menu extends AbstractBaseEntity {
 
     @Column(name = "date", nullable = false)
-    @NotBlank
+    @DateTimeFormat(pattern = "yyyy-MM-dd", iso = DateTimeFormat.ISO.DATE)
     private LocalDate date;
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "menu")
@@ -32,9 +32,10 @@ public class Menu extends AbstractBaseEntity {
     public Menu() {
     }
 
-    public Menu(Integer id, LocalDate date) {
+    public Menu(Integer id, LocalDate date, Restaurant restaurant) {
         super(id);
         this.date = date;
+        this.restaurant = restaurant;
     }
 
     public LocalDate getDate() {
