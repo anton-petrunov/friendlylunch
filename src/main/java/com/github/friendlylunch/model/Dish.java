@@ -6,14 +6,12 @@ import org.hibernate.annotations.OnDeleteAction;
 import org.hibernate.validator.constraints.Range;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "dishes")
 public class Dish extends AbstractNamedEntity {
 
     @Column(name = "price", nullable = false)
-    @NotBlank
     @Range(min = 0, max = 9999999)
     private Integer price;
 
