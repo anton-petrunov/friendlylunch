@@ -57,10 +57,4 @@ public class RestaurantRestController extends RestaurantController {
     public Restaurant getWithMenus(@PathVariable int id) {
         return super.getWithMenus(id);
     }
-
-    @Override
-    @GetMapping("/{id}/with-meals-dishes")
-    public Restaurant getWithMenusAndDishes(@PathVariable int id) {
-        return super.getWithMenusAndDishes(id);
-    }
 }

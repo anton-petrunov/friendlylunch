@@ -39,8 +39,4 @@ public class RestaurantController {
     public Restaurant getWithMenus(int id) {
         return restaurantRepository.getWithMenus(id);
     }
-
-    public Restaurant getWithMenusAndDishes(int id) {
-        return restaurantRepository.getWithMenusAndDishes(id);
-    }
 }
