@@ -1,11 +1,12 @@
 package com.github.friendlylunch.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Entity
@@ -15,7 +16,7 @@ public class Vote extends AbstractBaseEntity {
     @Column(name = "voting_date_time", nullable = false,
             columnDefinition = "timestamp default now()", updatable = false)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    @NotBlank
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE_TIME)
     private LocalDateTime votingDateTime = LocalDateTime.now();
 
     @OneToOne(fetch = FetchType.EAGER)
@@ -26,13 +27,16 @@ public class Vote extends AbstractBaseEntity {
     @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonBackReference
     private User user;
 
     public Vote() {
     }
 
-    public Vote(Integer id, LocalDateTime votingDateTime) {
+    public Vote(Integer id, Menu menu, User user, LocalDateTime votingDateTime) {
         super(id);
+        this.menu = menu;
+        this.user = user;
         this.votingDateTime = votingDateTime;
     }
 
@@ -66,7 +70,6 @@ public class Vote extends AbstractBaseEntity {
                 "id=" + id +
                 ", votingDateTime=" + votingDateTime +
                 ", menu=" + menu +
-                ", user=" + user +
                 '}';
     }
 }
