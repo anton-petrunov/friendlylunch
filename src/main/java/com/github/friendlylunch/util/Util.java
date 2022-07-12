@@ -3,6 +3,7 @@ package com.github.friendlylunch.util;
 import com.github.friendlylunch.model.User;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.temporal.ChronoUnit;
@@ -22,9 +23,13 @@ public class Util {
         }
     }
 
+    public static LocalDate nextLunchDate = nextLunchDateTime().toLocalDate();
+
     public static LocalDateTime previousLunchDateTime() {
         return nextLunchDateTime().minus(1, ChronoUnit.DAYS);
     }
+
+    public static LocalDate previousLunchDate = previousLunchDateTime().toLocalDate();
 
     public static LocalDateTime stopVotingDateTime() {
         LocalDateTime dateTimeNow = LocalDateTime.now();
