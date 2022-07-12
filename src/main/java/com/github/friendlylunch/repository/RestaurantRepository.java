@@ -9,6 +9,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Repository
@@ -26,4 +27,17 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
     @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("SELECT r FROM Restaurant r WHERE r.id=?1")
     Restaurant getWithMenus(int id);
+
+    @Query("SELECT r FROM Restaurant r JOIN r.menus m JOIN m.dishes d " +
+            "WHERE m.date = ?1 AND size(m.dishes) > 0 GROUP BY r")
+    List<Restaurant> getAllCheckedByMenuDateAndDishesSize(LocalDate date);
+
+    @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("select r from Restaurant r join r.menus m join m.dishes d " +
+            "where m.date = ?1 and size(m.dishes) > 0 group by m")
+    List<Restaurant> getAllCheckedByMenuDateAndDishesSizeWithMenus(LocalDate date);
+
+    @Query("SELECT r FROM Restaurant r JOIN r.menus m " +
+            "WHERE r.id = ?1 AND m.date = ?2 AND size(m.dishes) > 0")
+    Restaurant getCheckedByMenuDateAndDishesSize(int id, LocalDate date);
 }

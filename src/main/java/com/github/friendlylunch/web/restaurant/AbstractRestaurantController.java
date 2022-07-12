@@ -6,10 +6,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
+import static com.github.friendlylunch.util.Util.nextLunchDate;
 import static com.github.friendlylunch.util.ValidationUtil.assureIdConsistent;
 import static com.github.friendlylunch.util.ValidationUtil.checkNew;
 
-public class RestaurantController {
+public abstract class AbstractRestaurantController {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
@@ -38,5 +39,17 @@ public class RestaurantController {
 
     public Restaurant getWithMenus(int id) {
         return restaurantRepository.getWithMenus(id);
+    }
+
+    public List<Restaurant> getAllCheckedWithMenus() {
+        return restaurantRepository.getAllCheckedByMenuDateAndDishesSizeWithMenus(nextLunchDate);
+    }
+
+    public List<Restaurant> getAllChecked() {
+        return restaurantRepository.getAllCheckedByMenuDateAndDishesSize(nextLunchDate);
+    }
+
+    public Restaurant getChecked(int id) {
+        return restaurantRepository.getCheckedByMenuDateAndDishesSize(id, nextLunchDate);
     }
 }
