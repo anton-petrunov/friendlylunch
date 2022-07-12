@@ -4,7 +4,7 @@ import com.github.friendlylunch.model.Menu;
 import com.github.friendlylunch.model.Vote;
 import com.github.friendlylunch.repository.MenuRepository;
 import com.github.friendlylunch.repository.VoteRepository;
-import com.github.friendlylunch.util.exception.NotFoundException;
+import com.github.friendlylunch.util.exception.IllegalRequestDataException;
 import com.github.friendlylunch.web.SecurityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -40,7 +40,7 @@ public class VoteService {
                 menuForVote.getDishes().size() > 0;
 
         if (!menuIsChecked) {
-            throw new NotFoundException("Menu " + menuForVote + " is not available for voting");
+            throw new IllegalRequestDataException("Menu " + menuForVote + " is not available for voting");
         }
 
         List<Vote> votingStory = getAllByUser(userId);
@@ -51,11 +51,11 @@ public class VoteService {
 
             if (lastVote.getVotingDateTime().isAfter(previousLunchDateTime())) {
                 if (LocalTime.now().isAfter(ELEVEN_AM) && LocalTime.now().isBefore(TWO_PM)) {
-                    throw new NotFoundException("Sorry, from 11 am to 2 pm revoting is not allowed");
+                    throw new IllegalRequestDataException("Sorry, from 11 am to 2 pm revoting is not allowed");
                 }
 
                 if (menuForVote.getId().equals(lastVote.getMenu().getId())) {
-                    throw new NotFoundException("You ara already votes for this menu " + menuForVote);
+                    throw new IllegalRequestDataException("You ara already votes for this menu " + menuForVote);
                 }
             }
         }
