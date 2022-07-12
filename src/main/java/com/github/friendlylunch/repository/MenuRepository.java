@@ -28,6 +28,21 @@ public interface MenuRepository extends JpaRepository<Menu, Integer> {
     List<Menu> getAll(@Param("restaurantId") int restaurantId);
 
     @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
-    @Query("SELECT m FROM Menu m WHERE m.date=:date")
-    List<Menu> getAllByDateWithDishes(@Param("date") LocalDate date);
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id = ?1 AND m.date = ?2 AND size(m.dishes) > 0")
+    List<Menu> getAllCheckedByMenuDateAndDishesSizeWithDishes(int restaurantId, LocalDate date);
+
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id = ?1 AND m.date = ?2 AND size(m.dishes) > 0")
+    List<Menu> getAllCheckedByMenuDateAndDishesSize(int restaurantId, LocalDate date);
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT m FROM Menu m WHERE m.id = ?1")
+    Menu getByIdWithDishes(int id);
+
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id = ?1 " +
+            "AND m.id = ?2 AND m.date = ?3 AND size(m.dishes) > 0")
+    Menu getCheckedByMenuDateAndDishesSize(int restaurantId, int id, LocalDate date);
+
+    @EntityGraph(attributePaths = {"dishes"}, type = EntityGraph.EntityGraphType.LOAD)
+    @Query("SELECT m FROM Menu m WHERE m.restaurant.id = ?1 AND m.id = ?2")
+    Menu getWithDishes(int restaurantId, int id);
 }

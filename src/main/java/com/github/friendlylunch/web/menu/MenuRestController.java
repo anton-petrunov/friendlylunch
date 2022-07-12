@@ -18,19 +18,19 @@ public class MenuRestController extends AbstractMenuController {
 
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu) {
-        Menu created = super.create(menu);
+    public ResponseEntity<Menu> createWithLocation(@RequestBody Menu menu, @PathVariable int restaurantId) {
+        Menu created = super.create(menu, restaurantId);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")
-                .buildAndExpand(created.getId()).toUri();
+                .buildAndExpand(created.getRestaurant().getId(), created.getId()).toUri();
         return ResponseEntity.created(uriOfNewResource).body(created);
     }
 
     @Override
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestBody Menu menu, @PathVariable int id) {
-        super.update(menu, id);
+    public void update(@RequestBody Menu menu, @PathVariable int restaurantId, @PathVariable int id) {
+        super.update(menu, restaurantId, id);
     }
 
     @Override
@@ -50,5 +50,11 @@ public class MenuRestController extends AbstractMenuController {
     @GetMapping
     public List<Menu> getAll(@PathVariable int restaurantId) {
         return super.getAll(restaurantId);
+    }
+
+    @Override
+    @GetMapping("/{id}/with-dishes")
+    public Menu getWithDishes(@PathVariable int restaurantId, @PathVariable int id) {
+        return super.getWithDishes(restaurantId, id);
     }
 }

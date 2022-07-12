@@ -3,6 +3,7 @@ package com.github.friendlylunch.web.menu;
 import com.github.friendlylunch.model.Menu;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -12,11 +13,23 @@ import java.util.List;
 @RequestMapping(value = MenuForVotingRestController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class MenuForVotingRestController extends AbstractMenuController {
 
-    static final String REST_URL = "/rest/profile/menus-for-voting";
+    static final String REST_URL = "/rest/profile/restaurants/{restaurantId}/menus";
+
+    @Override
+    @GetMapping("/with-dishes")
+    public List<Menu> getAllCheckedWithMenus(@PathVariable int restaurantId) {
+        return super.getAllCheckedWithMenus(restaurantId);
+    }
 
     @Override
     @GetMapping
-    public List<Menu> getAllMenusForNextLunch() {
-        return super.getAllMenusForNextLunch();
+    public List<Menu> getAllChecked(@PathVariable int restaurantId) {
+        return super.getAllChecked(restaurantId);
+    }
+
+    @Override
+    @GetMapping("/{id}")
+    public Menu getChecked(@PathVariable int restaurantId, @PathVariable int id) {
+        return super.getChecked(restaurantId, id);
     }
 }

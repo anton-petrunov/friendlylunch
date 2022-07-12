@@ -6,9 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
-import static com.github.friendlylunch.util.Util.nextLunchDateTime;
+import static com.github.friendlylunch.util.Util.nextLunchDate;
 
 @Service
 public class MenuService {
@@ -16,10 +15,8 @@ public class MenuService {
     @Autowired
     MenuRepository menuRepository;
 
-    public List<Menu> getAllMenusForNextLunch() {
-        return menuRepository.getAllByDateWithDishes(nextLunchDateTime().toLocalDate()).stream()
-                .filter(menu -> menu.getDishes().size() > 0)
-                .collect(Collectors.toList());
+    public List<Menu> getAllCheckedWithMenus(int restaurantId) {
+        return menuRepository.getAllCheckedByMenuDateAndDishesSizeWithDishes(restaurantId, nextLunchDate);
     }
 
     public Menu create(Menu menu) {
@@ -40,5 +37,17 @@ public class MenuService {
 
     public List<Menu> getAll(int restaurantId) {
         return menuRepository.getAll(restaurantId);
+    }
+
+    public List<Menu> getAllChecked(int restaurantId) {
+        return menuRepository.getAllCheckedByMenuDateAndDishesSize(restaurantId, nextLunchDate);
+    }
+
+    public Menu getChecked(int restaurantId, int id) {
+        return menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, id, nextLunchDate);
+    }
+
+    public Menu getWithDishes(int restaurantId, int id) {
+        return menuRepository.getWithDishes(restaurantId, id);
     }
 }
