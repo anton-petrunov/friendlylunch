@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-import static com.github.friendlylunch.util.ValidationUtil.assureIdConsistent;
-import static com.github.friendlylunch.util.ValidationUtil.checkNew;
+import static com.github.friendlylunch.util.ValidationUtil.*;
 
 public abstract class AbstractMenuController {
 
@@ -37,7 +36,7 @@ public abstract class AbstractMenuController {
     }
 
     public Menu get(int restaurantId, int id) {
-        return menuService.get(restaurantId, id);
+        return checkNotFoundWithId(menuService.get(restaurantId, id), id);
     }
 
     public List<Menu> getAll(int restaurantId) {
@@ -53,10 +52,10 @@ public abstract class AbstractMenuController {
     }
 
     public Menu getChecked(int restaurantId, int id) {
-        return menuService.getChecked(restaurantId, id);
+        return checkNotFoundWithId(menuService.getChecked(restaurantId, id), id);
     }
 
     public Menu getWithDishes(int restaurantId, int id) {
-        return menuService.getWithDishes(restaurantId, id);
+        return checkNotFoundWithId(menuService.getWithDishes(restaurantId, id), id);
     }
 }

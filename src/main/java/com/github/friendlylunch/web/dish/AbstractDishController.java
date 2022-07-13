@@ -8,8 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.List;
 
 import static com.github.friendlylunch.util.Util.nextLunchDate;
-import static com.github.friendlylunch.util.ValidationUtil.assureIdConsistent;
-import static com.github.friendlylunch.util.ValidationUtil.checkNew;
+import static com.github.friendlylunch.util.ValidationUtil.*;
 
 public abstract class AbstractDishController {
 
@@ -34,11 +33,11 @@ public abstract class AbstractDishController {
     }
 
     public void delete(int menuId, int id) {
-        dishRepository.delete(menuId, id);
+        checkNotFoundWithId(dishRepository.delete(menuId, id), id);
     }
 
     public Dish get(int restaurantId, int menuId, int id) {
-        return dishRepository.get(restaurantId, menuId, id);
+        return checkNotFoundWithId(dishRepository.get(restaurantId, menuId, id), id);
     }
 
     public List<Dish> getAll(int restaurantId, int menuId) {
@@ -50,6 +49,7 @@ public abstract class AbstractDishController {
     }
 
     public Dish getChecked(int restaurantId, int menuId, int id) {
-        return dishRepository.getCheckedByMenuDateAndDishesSize(restaurantId, menuId, id, nextLunchDate);
+        return checkNotFoundWithId(
+                dishRepository.getCheckedByMenuDateAndDishesSize(restaurantId, menuId, id, nextLunchDate), id);
     }
 }

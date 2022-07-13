@@ -1,6 +1,7 @@
 package com.github.friendlylunch.service;
 
 import com.github.friendlylunch.AuthorizedUser;
+import com.github.friendlylunch.model.User;
 import com.github.friendlylunch.repository.UserRepository;
 import org.springframework.context.annotation.Scope;
 import org.springframework.context.annotation.ScopedProxyMode;
@@ -9,11 +10,11 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import com.github.friendlylunch.model.User;
 
 import java.util.List;
 
 import static com.github.friendlylunch.util.Util.prepareToSave;
+import static com.github.friendlylunch.util.ValidationUtil.checkNotFoundWithId;
 
 @Service("userService")
 @Scope(proxyMode = ScopedProxyMode.TARGET_CLASS)
@@ -39,11 +40,11 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(int id) {
-        userRepository.delete(id);
+        checkNotFoundWithId(userRepository.delete(id), id);
     }
 
     public User get(int id) {
-        return userRepository.findById(id).orElse(null);
+        return checkNotFoundWithId(userRepository.findById(id).orElse(null), id);
     }
 
     public List<User> getAll() {
@@ -60,9 +61,5 @@ public class UserService implements UserDetailsService {
 
     private User prepareAndSave(User user) {
         return userRepository.save(prepareToSave(user, passwordEncoder));
-    }
-
-    public void updateWithoutPasswordEncoding(User user) {
-        userRepository.save(user);
     }
 }
