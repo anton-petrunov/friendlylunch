@@ -15,7 +15,7 @@ public class MenuService {
     @Autowired
     MenuRepository menuRepository;
 
-    public List<Menu> getAllCheckedWithMenus(int restaurantId) {
+    public List<Menu> getAllCheckedWithDishes(int restaurantId) {
         return menuRepository.getAllCheckedByMenuDateAndDishesSizeWithDishes(restaurantId, nextLunchDate);
     }
 

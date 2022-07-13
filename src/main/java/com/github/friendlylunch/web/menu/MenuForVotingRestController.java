@@ -17,8 +17,8 @@ public class MenuForVotingRestController extends AbstractMenuController {
 
     @Override
     @GetMapping("/with-dishes")
-    public List<Menu> getAllCheckedWithMenus(@PathVariable int restaurantId) {
-        return super.getAllCheckedWithMenus(restaurantId);
+    public List<Menu> getAllCheckedWithDishes(@PathVariable int restaurantId) {
+        return super.getAllCheckedWithDishes(restaurantId);
     }
 
     @Override
