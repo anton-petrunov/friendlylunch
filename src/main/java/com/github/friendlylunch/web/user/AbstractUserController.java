@@ -1,10 +1,11 @@
 package com.github.friendlylunch.web.user;
 
+import com.github.friendlylunch.model.User;
+import com.github.friendlylunch.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import com.github.friendlylunch.model.User;
-import com.github.friendlylunch.service.UserService;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -26,8 +27,9 @@ public abstract class AbstractUserController {
 
     public void update(User user, int id) {
         log.info("update {} with id={}", user, id);
+        Assert.notNull(user, "user must not be null");
         assureIdConsistent(user, id);
-        userService.updateWithPasswordEncoding(user);
+        userService.update(user, id);
     }
 
     public User get(int id) {

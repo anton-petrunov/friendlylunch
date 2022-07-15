@@ -40,7 +40,7 @@ public class UserService implements UserDetailsService {
     }
 
     public void delete(int id) {
-        checkNotFoundWithId(userRepository.delete(id), id);
+        checkNotFoundWithId(userRepository.delete(id) != 0, id);
     }
 
     public User get(int id) {
@@ -55,8 +55,9 @@ public class UserService implements UserDetailsService {
         return prepareAndSave(user);
     }
 
-    public void updateWithPasswordEncoding(User user) {
-        prepareAndSave(user);
+    public void update(User user, int id) {
+        get(id);
+        checkNotFoundWithId(prepareAndSave(user), id);
     }
 
     private User prepareAndSave(User user) {
