@@ -32,7 +32,7 @@ public abstract class AbstractRestaurantController {
 
     public void delete(int id) {
         log.info("delete restaurant {}", id);
-        checkNotFoundWithId(restaurantRepository.delete(id), id);
+        checkNotFoundWithId(restaurantRepository.delete(id) != 0, id);
     }
 
     public Restaurant get(int id) {
