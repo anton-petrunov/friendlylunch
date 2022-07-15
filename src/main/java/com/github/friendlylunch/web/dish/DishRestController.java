@@ -40,8 +40,9 @@ public class DishRestController extends AbstractDishController {
     @Override
     @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void delete(@PathVariable int menuId, @PathVariable int id) {
-        super.delete(menuId, id);
+    public void delete(@PathVariable int restaurantId,
+                       @PathVariable int menuId, @PathVariable int id) {
+        super.delete(restaurantId, menuId, id);
     }
 
     @Override

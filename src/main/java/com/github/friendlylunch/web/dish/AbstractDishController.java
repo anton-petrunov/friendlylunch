@@ -1,8 +1,10 @@
 package com.github.friendlylunch.web.dish;
 
 import com.github.friendlylunch.model.Dish;
+import com.github.friendlylunch.model.Menu;
 import com.github.friendlylunch.repository.DishRepository;
 import com.github.friendlylunch.repository.MenuRepository;
+import com.github.friendlylunch.web.menu.MenuRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +24,11 @@ public abstract class AbstractDishController {
     @Autowired
     private MenuRepository menuRepository;
 
+    @Autowired
+    private MenuRestController menuController;
+
     public Dish create(Dish dish, int restaurantId, int menuId) {
-        log.info("create {} menu {} for restaurant {}", dish, menuId, restaurantId);
+        log.info("create {} of menu {} of restaurant {}", dish, menuId, restaurantId);
         checkNew(dish);
         dish.setMenu(menuRepository.get(restaurantId, menuId));
         return dishRepository.save(dish);
@@ -32,35 +37,42 @@ public abstract class AbstractDishController {
     public void update(Dish dish, int restaurantId, int menuId, int id) {
         log.info("update {} of menu {} of restaurant {} with id {}", dish, menuId, restaurantId, id);
         assureIdConsistent(dish, id);
-        Dish dishFromPath = dishRepository.get(restaurantId, menuId, id);
+        Dish dishFromPath = dishRepository.get(menuId, id);
         dish.setMenu(dishFromPath.getMenu());
         dish.getMenu().setRestaurant(dishFromPath.getMenu().getRestaurant());
         dishRepository.save(dish);
     }
 
-    public void delete(int menuId, int id) {
-        log.info("delete dish {}", id);
-        checkNotFoundWithId(dishRepository.delete(menuId, id), id);
+    public void delete(int restaurantId, int menuId, int id) {
+        log.info("delete dish {} from menu {} from restaurant {}", id, menuId, restaurantId);
+        Menu menu = menuController.get(restaurantId, menuId);
+        checkNotFoundWithId(dishRepository.delete(menu.getId(), id) != 0, id);
     }
 
     public Dish get(int restaurantId, int menuId, int id) {
         log.info("get dish {} of menu {} of restaurant {}", id, menuId, restaurantId);
-        return checkNotFoundWithId(dishRepository.get(restaurantId, menuId, id), id);
+        Menu menu = menuController.get(restaurantId, menuId);
+        return checkNotFoundWithId(dishRepository.get(menu.getId(), id), id);
     }
 
     public List<Dish> getAll(int restaurantId, int menuId) {
         log.info("getAll dishes of menu {} of restaurant {}", menuId, restaurantId);
-        return dishRepository.getAll(restaurantId, menuId);
+        Menu menu = menuController.get(restaurantId, menuId);
+        return checkNotFoundWithId(dishRepository.getAll(menu.getId()), menuId);
     }
 
     public List<Dish> getAllChecked(int restaurantId, int menuId) {
         log.info("getAllChecked dishes of menu {} of restaurant {}", menuId, restaurantId);
-        return dishRepository.getAllCheckedByMenuDateAndDishesSize(restaurantId, menuId, nextLunchDate);
+        Menu menu = menuController.get(restaurantId, menuId);
+        return checkNotFoundWithId(
+                dishRepository.getAllCheckedByMenuDateAndDishesSize(menu.getId(), nextLunchDate),
+                menuId);
     }
 
     public Dish getChecked(int restaurantId, int menuId, int id) {
         log.info("getChecked dish {} of menu {} of restaurant {}", id, menuId, restaurantId);
+        Menu menu = menuController.get(restaurantId, menuId);
         return checkNotFoundWithId(
-                dishRepository.getCheckedByMenuDateAndDishesSize(restaurantId, menuId, id, nextLunchDate), id);
+                dishRepository.getCheckedByMenuDateAndDishesSize(menu.getId(), id, nextLunchDate), id);
     }
 }
