@@ -8,6 +8,7 @@ import com.github.friendlylunch.web.menu.MenuRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -36,11 +37,15 @@ public abstract class AbstractDishController {
 
     public void update(Dish dish, int restaurantId, int menuId, int id) {
         log.info("update {} of menu {} of restaurant {} with id {}", dish, menuId, restaurantId, id);
+        Assert.notNull(dish, "dish must not be null");
+        Dish updated = get(restaurantId, menuId, id);
         assureIdConsistent(dish, id);
-        Dish dishFromPath = dishRepository.get(menuId, id);
-        dish.setMenu(dishFromPath.getMenu());
-        dish.getMenu().setRestaurant(dishFromPath.getMenu().getRestaurant());
-        dishRepository.save(dish);
+        Menu menu = updated.getMenu();
+        if (dish.getMenu() != null) {
+            assureIdConsistent(dish.getMenu(), menuId);
+        }
+        dish.setMenu(menu);
+        checkNotFoundWithId(dishRepository.save(dish), id);
     }
 
     public void delete(int restaurantId, int menuId, int id) {
