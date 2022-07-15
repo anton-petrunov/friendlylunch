@@ -9,6 +9,7 @@ import com.github.friendlylunch.web.restaurant.RestaurantRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -40,10 +41,15 @@ public abstract class AbstractMenuController {
 
     public void update(Menu menu, int restaurantId, int id) {
         log.info("update {} of restaurant {} with id {}", menu, restaurantId, id);
+        Assert.notNull(menu, "menu must not be null");
+        Menu updated = get(restaurantId, id);
         assureIdConsistent(menu, id);
-        Restaurant restaurant = menuService.get(restaurantId, id).getRestaurant();
+        Restaurant restaurant = updated.getRestaurant();
+        if (menu.getRestaurant() != null) {
+            assureIdConsistent(menu.getRestaurant(), restaurantId);
+        }
         menu.setRestaurant(restaurant);
-        menuService.update(menu);
+        checkNotFoundWithId(menuRepository.save(menu), id);
     }
 
     public void delete(int restaurantId, int id) {
