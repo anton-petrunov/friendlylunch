@@ -5,6 +5,7 @@ import com.github.friendlylunch.repository.RestaurantRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 
 import java.util.List;
 
@@ -26,8 +27,10 @@ public abstract class AbstractRestaurantController {
 
     public void update(Restaurant restaurant, int id) {
         log.info("update {} with id {}", restaurant, id);
+        Assert.notNull(restaurant, "restaurant must not be null");
+        get(id);
         assureIdConsistent(restaurant, id);
-        restaurantRepository.save(restaurant);
+        checkNotFoundWithId(restaurantRepository.save(restaurant), id);
     }
 
     public void delete(int id) {
