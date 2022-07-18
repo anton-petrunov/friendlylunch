@@ -3,8 +3,6 @@ package com.github.friendlylunch.web.menu;
 import com.github.friendlylunch.model.Menu;
 import com.github.friendlylunch.model.Restaurant;
 import com.github.friendlylunch.repository.MenuRepository;
-import com.github.friendlylunch.repository.RestaurantRepository;
-import com.github.friendlylunch.service.MenuService;
 import com.github.friendlylunch.web.restaurant.RestaurantRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,19 +22,18 @@ public abstract class AbstractMenuController {
     MenuRepository menuRepository;
 
     @Autowired
-    MenuService menuService;
-
-    @Autowired
-    RestaurantRepository restaurantRepository;
-
-    @Autowired
     RestaurantRestController restaurantController;
 
     public Menu create(Menu menu, int restaurantId) {
         log.info("create {} for restaurant {}", menu, restaurantId);
+        Assert.notNull(menu, "menu must not be null");
         checkNew(menu);
-        menu.setRestaurant(restaurantRepository.getById(restaurantId));
-        return menuService.create(menu);
+        Restaurant restaurant = restaurantController.get(restaurantId);
+        if (menu.getRestaurant() != null) {
+            assureIdConsistent(menu.getRestaurant(), restaurantId);
+        }
+        menu.setRestaurant(restaurant);
+        return menuRepository.save(menu);
     }
 
     public void update(Menu menu, int restaurantId, int id) {
