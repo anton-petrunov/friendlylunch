@@ -29,9 +29,10 @@ public abstract class AbstractRestaurantController {
     public void update(Restaurant restaurant, int id) {
         log.info("update {} with id {}", restaurant, id);
         Assert.notNull(restaurant, "restaurant must not be null");
-        get(id);
+        Restaurant updated = restaurantRepository.findById(id).orElse(null);
+        checkNotFoundWithId(updated, id);
         assureIdConsistent(restaurant, id);
-        checkNotFoundWithId(restaurantRepository.save(restaurant), id);
+        restaurantRepository.save(restaurant);
     }
 
     public void delete(int id) {

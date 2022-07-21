@@ -47,7 +47,7 @@ public abstract class AbstractMenuController {
             assureIdConsistent(menu.getRestaurant(), restaurantId);
         }
         menu.setRestaurant(restaurant);
-        checkNotFoundWithId(menuRepository.save(menu), id);
+        menuRepository.save(menu);
     }
 
     public void delete(int restaurantId, int id) {
