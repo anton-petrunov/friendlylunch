@@ -3,7 +3,6 @@ package com.github.friendlylunch.web.dish;
 import com.github.friendlylunch.model.Dish;
 import com.github.friendlylunch.model.Menu;
 import com.github.friendlylunch.repository.DishRepository;
-import com.github.friendlylunch.util.exception.IllegalRequestDataException;
 import com.github.friendlylunch.web.menu.MenuRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.github.friendlylunch.util.Util.nextLunchDate;
+import static com.github.friendlylunch.util.Util.*;
 import static com.github.friendlylunch.util.ValidationUtil.*;
 
 public abstract class AbstractDishController {
@@ -72,10 +71,7 @@ public abstract class AbstractDishController {
         log.info("getAllChecked dishes of menu {} of restaurant {}", menuId, restaurantId);
         Menu menu = menuController.get(restaurantId, menuId);
         List<Dish> dishes = dishRepository.getAllCheckedByMenuDateAndDishesSize(menu.getId(), nextLunchDate);
-        if (dishes.size() == 0) {
-            throw new IllegalRequestDataException(
-                    "Dishes of menu " + menuId + " of restaurant " + restaurantId + " is not available for voting");
-        }
+        checkDishesListSize(dishes, restaurantId, menuId);
         return checkNotFoundWithId(dishes, menuId);
     }
 
@@ -83,11 +79,7 @@ public abstract class AbstractDishController {
         log.info("getChecked dish {} of menu {} of restaurant {}", id, menuId, restaurantId);
         get(restaurantId, menuId, id);
         Dish dish = dishRepository.getCheckedByMenuDateAndDishesSize(menuId, id, nextLunchDate);
-        if (dish == null) {
-            throw new IllegalRequestDataException(
-                    "Dish " + id + " of menu " + menuId +
-                            " of restaurant " + restaurantId + " is not available for voting");
-        }
+        checkDishIsNull(dish, restaurantId, menuId, id);
         return dish;
     }
 }

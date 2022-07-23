@@ -3,7 +3,6 @@ package com.github.friendlylunch.web.menu;
 import com.github.friendlylunch.model.Menu;
 import com.github.friendlylunch.model.Restaurant;
 import com.github.friendlylunch.repository.MenuRepository;
-import com.github.friendlylunch.util.exception.IllegalRequestDataException;
 import com.github.friendlylunch.web.restaurant.RestaurantRestController;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,7 +11,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.github.friendlylunch.util.Util.nextLunchDate;
+import static com.github.friendlylunch.util.Util.*;
 import static com.github.friendlylunch.util.ValidationUtil.*;
 
 public abstract class AbstractMenuController {
@@ -68,13 +67,17 @@ public abstract class AbstractMenuController {
         return checkNotFoundWithId(menuRepository.getAll(restaurant.getId()), restaurantId);
     }
 
+    public Menu getWithDishes(int restaurantId, int id) {
+        log.info("get menu {} of restaurant {} with dishes", id, restaurantId);
+        Restaurant restaurant = restaurantController.get(restaurantId);
+        return checkNotFoundWithId(menuRepository.getWithDishes(restaurant.getId(), id), id);
+    }
+
     public List<Menu> getAllCheckedWithDishes(int restaurantId) {
         log.info("getAllChecked menus of restaurant {} with dishes", restaurantId);
         Restaurant restaurant = restaurantController.get(restaurantId);
         List<Menu> menus = menuRepository.getAllCheckedByMenuDateAndDishesSizeWithDishes(restaurant.getId(), nextLunchDate);
-        if (menus.size() == 0) {
-            throw new IllegalRequestDataException("Menus of restaurant " + restaurantId + " is not available for voting");
-        }
+        checkMenusListSize(menus, restaurantId);
         return checkNotFoundWithId(menus, restaurantId);
     }
 
@@ -82,10 +85,7 @@ public abstract class AbstractMenuController {
         log.info("getAllChecked menus of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantController.get(restaurantId);
         List<Menu> menus = menuRepository.getAllCheckedByMenuDateAndDishesSize(restaurant.getId(), nextLunchDate);
-        if (menus.size() == 0) {
-            throw new IllegalRequestDataException(
-                    "Menus of restaurant " + restaurantId + " is not available for voting");
-        }
+        checkMenusListSize(menus, restaurantId);
         return checkNotFoundWithId(menus, restaurantId);
     }
 
@@ -93,16 +93,7 @@ public abstract class AbstractMenuController {
         log.info("getChecked menu {} of restaurant {}", id, restaurantId);
         get(restaurantId, id);
         Menu menu = menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, id, nextLunchDate);
-        if (menu == null) {
-            throw new IllegalRequestDataException(
-                    "Menu " + id + " of restaurant " + restaurantId + " is not available for voting");
-        }
+        checkMenuIsNull(menu, restaurantId, id);
         return menu;
-    }
-
-    public Menu getWithDishes(int restaurantId, int id) {
-        log.info("get menu {} of restaurant {} with dishes", id, restaurantId);
-        Restaurant restaurant = restaurantController.get(restaurantId);
-        return checkNotFoundWithId(menuRepository.getWithDishes(restaurant.getId(), id), id);
     }
 }

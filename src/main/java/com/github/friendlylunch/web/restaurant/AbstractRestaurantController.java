@@ -2,7 +2,6 @@ package com.github.friendlylunch.web.restaurant;
 
 import com.github.friendlylunch.model.Restaurant;
 import com.github.friendlylunch.repository.RestaurantRepository;
-import com.github.friendlylunch.util.exception.IllegalRequestDataException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +9,7 @@ import org.springframework.util.Assert;
 
 import java.util.List;
 
-import static com.github.friendlylunch.util.Util.nextLunchDate;
+import static com.github.friendlylunch.util.Util.*;
 import static com.github.friendlylunch.util.ValidationUtil.*;
 
 public abstract class AbstractRestaurantController {
@@ -57,31 +56,23 @@ public abstract class AbstractRestaurantController {
 
     public List<Restaurant> getAllCheckedWithMenus() {
         log.info("getAllChecked restaurants with menus");
-        List<Restaurant> restaurants = restaurantRepository
-                .getAllCheckedByMenuDateAndDishesSizeWithMenus(nextLunchDate);
-        if (restaurants.size() == 0) {
-            throw new IllegalRequestDataException("Not found restaurants available for voting");
-        }
+        List<Restaurant> restaurants = restaurantRepository.getAllCheckedByMenuDateAndDishesSizeWithMenus(nextLunchDate);
+        checkRestaurantsListSize(restaurants);
         return restaurants;
     }
 
     public List<Restaurant> getAllChecked() {
         log.info("getAllChecked restaurants");
-        List<Restaurant> restaurants = restaurantRepository
-                .getAllCheckedByMenuDateAndDishesSize(nextLunchDate);
-        if (restaurants.size() == 0) {
-            throw new IllegalRequestDataException("Not found restaurants available for voting");
-        }
+        List<Restaurant> restaurants = restaurantRepository.getAllCheckedByMenuDateAndDishesSize(nextLunchDate);
+        checkRestaurantsListSize(restaurants);
         return restaurants;
     }
 
     public Restaurant getChecked(int id) {
         log.info("getChecked restaurant {}", id);
-        get(id);
+        checkNotFoundWithId(restaurantRepository.findById(id).orElse(null), id);
         Restaurant restaurant = restaurantRepository.getCheckedByMenuDateAndDishesSize(id, nextLunchDate);
-        if (restaurant == null) {
-            throw new IllegalRequestDataException("Restaurant " + id + " is not available for voting");
-        }
+        checkRestaurantIsNull(restaurant, id);
         return restaurant;
     }
 }
