@@ -17,13 +17,13 @@ public class DishForVotingRestController extends AbstractDishController {
 
     @Override
     @GetMapping()
-    public List<Dish> getAllChecked(@PathVariable int restaurantId, @PathVariable int menuId) {
+    public List<Dish> getAll(@PathVariable int restaurantId, @PathVariable int menuId) {
         return super.getAllChecked(restaurantId, menuId);
     }
 
     @Override
     @GetMapping("/{id}")
-    public Dish getChecked(@PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id) {
+    public Dish get(@PathVariable int restaurantId, @PathVariable int menuId, @PathVariable int id) {
         return super.getChecked(restaurantId, menuId, id);
     }
 }

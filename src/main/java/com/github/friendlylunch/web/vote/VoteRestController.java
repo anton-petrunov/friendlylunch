@@ -15,8 +15,8 @@ public class VoteRestController extends VoteController {
 
     @Override
     @GetMapping
-    public List<Vote> getAllByUser() {
-        return super.getAllByUser();
+    public List<Vote> getAll() {
+        return super.getAll();
     }
 
     @Override

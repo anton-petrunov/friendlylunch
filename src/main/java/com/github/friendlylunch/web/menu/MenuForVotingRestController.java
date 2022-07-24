@@ -15,21 +15,20 @@ public class MenuForVotingRestController extends AbstractMenuController {
 
     static final String REST_URL = "/rest/profile/restaurants/{restaurantId}/menus";
 
-    @Override
     @GetMapping("/with-dishes")
-    public List<Menu> getAllCheckedWithDishes(@PathVariable int restaurantId) {
+    public List<Menu> getAllWithDishes(@PathVariable int restaurantId) {
         return super.getAllCheckedWithDishes(restaurantId);
     }
 
     @Override
     @GetMapping
-    public List<Menu> getAllChecked(@PathVariable int restaurantId) {
+    public List<Menu> getAll(@PathVariable int restaurantId) {
         return super.getAllChecked(restaurantId);
     }
 
     @Override
     @GetMapping("/{id}")
-    public Menu getChecked(@PathVariable int restaurantId, @PathVariable int id) {
+    public Menu get(@PathVariable int restaurantId, @PathVariable int id) {
         return super.getChecked(restaurantId, id);
     }
 }

@@ -17,10 +17,10 @@ public class VoteController {
     @Autowired
     VoteService voteService;
 
-    public List<Vote> getAllByUser() {
+    public List<Vote> getAll() {
         int userId = authUserId();
         log.info("getAllByUser {}", authUserId());
-        return voteService.getAllByUser(userId);
+        return voteService.getAll(userId);
     }
 
     public Vote vote(int menuId) {

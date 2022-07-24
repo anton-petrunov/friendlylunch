@@ -11,5 +11,5 @@ import java.util.List;
 public interface VoteRepository extends JpaRepository<Vote, Integer> {
 
     @Query("SELECT v FROM Vote v WHERE v.user.id = ?1 ORDER BY v.votingDateTime DESC")
-    List<Vote> getAllByUser(int userId);
+    List<Vote> getAll(int userId);
 }

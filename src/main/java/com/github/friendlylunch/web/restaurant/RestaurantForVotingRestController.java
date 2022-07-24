@@ -17,19 +17,18 @@ public class RestaurantForVotingRestController extends AbstractRestaurantControl
 
     @Override
     @GetMapping("/")
-    public List<Restaurant> getAllChecked() {
+    public List<Restaurant> getAll() {
         return super.getAllChecked();
     }
 
-    @Override
     @GetMapping("/with-menus")
-    public List<Restaurant> getAllCheckedWithMenus() {
+    public List<Restaurant> getAllWithMenus() {
         return super.getAllCheckedWithMenus();
     }
 
     @Override
     @GetMapping("/{id}")
-    public Restaurant getChecked(@PathVariable int id) {
+    public Restaurant get(@PathVariable int id) {
         return super.getChecked(id);
     }
 }

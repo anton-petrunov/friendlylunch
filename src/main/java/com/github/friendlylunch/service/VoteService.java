@@ -30,8 +30,8 @@ public class VoteService {
     @Autowired
     MenuRepository menuRepository;
 
-    public List<Vote> getAllByUser(int userId) {
-        return voteRepository.getAllByUser(userId);
+    public List<Vote> getAll(int userId) {
+        return voteRepository.getAll(userId);
     }
 
     public Vote vote(int userId, int menuId) {
@@ -40,9 +40,9 @@ public class VoteService {
         Menu menuForVote = menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, menuId, nextLunchDate);
         checkMenuIsNull(menuForVote, restaurantId, menuId);
 
-        List<Vote> votingStory = getAllByUser(userId);
+        List<Vote> votingStory = getAll(userId);
         if (votingStory.size() != 0) {
-            Vote lastVote = getAllByUser(userId).get(0);
+            Vote lastVote = getAll(userId).get(0);
 
             if (lastVote.getVotingDateTime().isAfter(previousLunchDateTime())) {
                 checkTimeForRevote(ELEVEN_AM, TWO_PM);
