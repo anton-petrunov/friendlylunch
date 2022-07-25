@@ -23,7 +23,7 @@ VALUES ('Shaurma Number ONE'),
        ('Funny Fish');
 
 INSERT INTO MENUS (RESTAURANT_ID, DATE)
-VALUES (100005, '2022-6-24'),
+VALUES (100005, '2022-07-25'),
        (100006, '2022-6-25'),
        (100007, now),
        (100008, now);
@@ -34,4 +34,4 @@ VALUES (100009, 'Coca-Cola', 140),
        (100010, 'Chief Burger', 219);
 
 INSERT INTO VOTES (MENU_ID, USER_ID)
-VALUES (100009, 100002);
+VALUES (100009, 100001);

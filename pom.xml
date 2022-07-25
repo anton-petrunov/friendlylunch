@@ -9,6 +9,9 @@
 
     <version>1.0-SNAPSHOT</version>
 
+    <name>Voting where to lunch with friends</name>
+    <url>https://github.com/anton-petrunov/friendlylunch</url>
+
     <properties>
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -147,7 +150,7 @@
             <groupId>org.apache.tomcat</groupId>
             <artifactId>tomcat-servlet-api</artifactId>
             <version>${tomcat.version}</version>
-            <!-- <scope>provided</scope> // SpringMain crashes with this line -->
+            <scope>provided</scope>
         </dependency>
 
         <dependency>
