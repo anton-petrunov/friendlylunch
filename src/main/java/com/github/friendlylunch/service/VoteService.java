@@ -37,7 +37,7 @@ public class VoteService {
     public Vote vote(int userId, int menuId) {
         Menu menu = checkNotFoundWithId(menuRepository.findById(menuId).orElse(null), menuId);
         int restaurantId = menu.getRestaurant().getId();
-        Menu menuForVote = menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, menuId, nextLunchDate);
+        Menu menuForVote = menuRepository.getByMenuDateAndDishesSize(restaurantId, menuId, nextLunchDate);
         checkMenuIsNull(menuForVote, restaurantId, menuId);
 
         List<Vote> votingStory = getAll(userId);

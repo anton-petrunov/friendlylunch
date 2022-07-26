@@ -76,7 +76,7 @@ public abstract class AbstractMenuController {
     public List<Menu> getAllCheckedWithDishes(int restaurantId) {
         log.info("getAllChecked menus of restaurant {} with dishes", restaurantId);
         Restaurant restaurant = restaurantController.get(restaurantId);
-        List<Menu> menus = menuRepository.getAllCheckedByMenuDateAndDishesSizeWithDishes(restaurant.getId(), nextLunchDate);
+        List<Menu> menus = menuRepository.getAllByMenuDateAndDishesSizeWithDishes(restaurant.getId(), nextLunchDate);
         checkMenusListSize(menus, restaurantId);
         return checkNotFoundWithId(menus, restaurantId);
     }
@@ -84,7 +84,7 @@ public abstract class AbstractMenuController {
     public List<Menu> getAllChecked(int restaurantId) {
         log.info("getAllChecked menus of restaurant {}", restaurantId);
         Restaurant restaurant = restaurantController.get(restaurantId);
-        List<Menu> menus = menuRepository.getAllCheckedByMenuDateAndDishesSize(restaurant.getId(), nextLunchDate);
+        List<Menu> menus = menuRepository.getAllByMenuDateAndDishesSize(restaurant.getId(), nextLunchDate);
         checkMenusListSize(menus, restaurantId);
         return checkNotFoundWithId(menus, restaurantId);
     }
@@ -93,7 +93,7 @@ public abstract class AbstractMenuController {
         log.info("getChecked menu {} of restaurant {}", id, restaurantId);
         Restaurant restaurant = restaurantController.get(restaurantId);
         checkNotFoundWithId(menuRepository.get(restaurant.getId(), id), id);
-        Menu menu = menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, id, nextLunchDate);
+        Menu menu = menuRepository.getByMenuDateAndDishesSize(restaurantId, id, nextLunchDate);
         checkMenuIsNull(menu, restaurantId, id);
         return menu;
     }

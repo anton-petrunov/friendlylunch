@@ -70,7 +70,7 @@ public abstract class AbstractDishController {
     public List<Dish> getAllChecked(int restaurantId, int menuId) {
         log.info("getAllChecked dishes of menu {} of restaurant {}", menuId, restaurantId);
         Menu menu = menuController.get(restaurantId, menuId);
-        List<Dish> dishes = dishRepository.getAllCheckedByMenuDateAndDishesSize(menu.getId(), nextLunchDate);
+        List<Dish> dishes = dishRepository.getAllByMenuDateAndDishesSize(menu.getId(), nextLunchDate);
         checkDishesListSize(dishes, restaurantId, menuId);
         return checkNotFoundWithId(dishes, menuId);
     }
@@ -79,7 +79,7 @@ public abstract class AbstractDishController {
         log.info("getChecked dish {} of menu {} of restaurant {}", id, menuId, restaurantId);
         Menu menu = menuController.get(restaurantId, menuId);
         checkNotFoundWithId(dishRepository.get(menu.getId(), id), id);
-        Dish dish = dishRepository.getCheckedByMenuDateAndDishesSize(menuId, id, nextLunchDate);
+        Dish dish = dishRepository.getByMenuDateAndDishesSize(menuId, id, nextLunchDate);
         checkDishIsNull(dish, restaurantId, menuId, id);
         return dish;
     }

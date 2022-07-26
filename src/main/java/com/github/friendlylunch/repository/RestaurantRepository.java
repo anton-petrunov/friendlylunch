@@ -30,14 +30,14 @@ public interface RestaurantRepository extends JpaRepository<Restaurant, Integer>
 
     @Query("SELECT r FROM Restaurant r JOIN r.menus m JOIN m.dishes d " +
             "WHERE m.date = ?1 AND size(m.dishes) > 0 GROUP BY r")
-    List<Restaurant> getAllCheckedByMenuDateAndDishesSize(LocalDate date);
+    List<Restaurant> getAllByMenuDateAndDishesSize(LocalDate date);
 
     @EntityGraph(attributePaths = {"menus"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query("select r from Restaurant r join r.menus m join m.dishes d " +
             "where m.date = ?1 and size(m.dishes) > 0 group by m")
-    List<Restaurant> getAllCheckedByMenuDateAndDishesSizeWithMenus(LocalDate date);
+    List<Restaurant> getAllByMenuDateAndDishesSizeWithMenus(LocalDate date);
 
     @Query("SELECT r FROM Restaurant r JOIN r.menus m " +
             "WHERE r.id = ?1 AND m.date = ?2 AND size(m.dishes) > 0")
-    Restaurant getCheckedByMenuDateAndDishesSize(int id, LocalDate date);
+    Restaurant getByMenuDateAndDishesSize(int id, LocalDate date);
 }

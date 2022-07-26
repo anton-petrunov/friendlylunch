@@ -26,9 +26,9 @@ public interface DishRepository extends JpaRepository<Dish, Integer> {
     Dish get(int menuId, int id);
 
     @Query("SELECT d FROM Dish d WHERE d.menu.id = ?1 AND d.menu.date = ?2 AND size(d.menu.dishes) > 0")
-    List<Dish> getAllCheckedByMenuDateAndDishesSize(int menuId, LocalDate date);
+    List<Dish> getAllByMenuDateAndDishesSize(int menuId, LocalDate date);
 
     @Query("select d FROM Dish d where d.menu.id = ?1 " +
             "and d.id = ?2 and d.menu.date = ?3 and size(d.menu.dishes) > 0 ")
-    Dish getCheckedByMenuDateAndDishesSize(int menuId, int id, LocalDate date);
+    Dish getByMenuDateAndDishesSize(int menuId, int id, LocalDate date);
 }

@@ -56,14 +56,14 @@ public abstract class AbstractRestaurantController {
 
     public List<Restaurant> getAllCheckedWithMenus() {
         log.info("getAllChecked restaurants with menus");
-        List<Restaurant> restaurants = restaurantRepository.getAllCheckedByMenuDateAndDishesSizeWithMenus(nextLunchDate);
+        List<Restaurant> restaurants = restaurantRepository.getAllByMenuDateAndDishesSizeWithMenus(nextLunchDate);
         checkRestaurantsListSize(restaurants);
         return restaurants;
     }
 
     public List<Restaurant> getAllChecked() {
         log.info("getAllChecked restaurants");
-        List<Restaurant> restaurants = restaurantRepository.getAllCheckedByMenuDateAndDishesSize(nextLunchDate);
+        List<Restaurant> restaurants = restaurantRepository.getAllByMenuDateAndDishesSize(nextLunchDate);
         checkRestaurantsListSize(restaurants);
         return restaurants;
     }
@@ -71,7 +71,7 @@ public abstract class AbstractRestaurantController {
     public Restaurant getChecked(int id) {
         log.info("getChecked restaurant {}", id);
         checkNotFoundWithId(restaurantRepository.findById(id).orElse(null), id);
-        Restaurant restaurant = restaurantRepository.getCheckedByMenuDateAndDishesSize(id, nextLunchDate);
+        Restaurant restaurant = restaurantRepository.getByMenuDateAndDishesSize(id, nextLunchDate);
         checkRestaurantIsNull(restaurant, id);
         return restaurant;
     }
