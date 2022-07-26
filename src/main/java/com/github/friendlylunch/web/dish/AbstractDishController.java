@@ -77,7 +77,8 @@ public abstract class AbstractDishController {
 
     public Dish getChecked(int restaurantId, int menuId, int id) {
         log.info("getChecked dish {} of menu {} of restaurant {}", id, menuId, restaurantId);
-        get(restaurantId, menuId, id);
+        Menu menu = menuController.get(restaurantId, menuId);
+        checkNotFoundWithId(dishRepository.get(menu.getId(), id), id);
         Dish dish = dishRepository.getCheckedByMenuDateAndDishesSize(menuId, id, nextLunchDate);
         checkDishIsNull(dish, restaurantId, menuId, id);
         return dish;

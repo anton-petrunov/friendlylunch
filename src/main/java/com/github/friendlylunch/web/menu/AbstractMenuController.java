@@ -91,7 +91,8 @@ public abstract class AbstractMenuController {
 
     public Menu getChecked(int restaurantId, int id) {
         log.info("getChecked menu {} of restaurant {}", id, restaurantId);
-        get(restaurantId, id);
+        Restaurant restaurant = restaurantController.get(restaurantId);
+        checkNotFoundWithId(menuRepository.get(restaurant.getId(), id), id);
         Menu menu = menuRepository.getCheckedByMenuDateAndDishesSize(restaurantId, id, nextLunchDate);
         checkMenuIsNull(menu, restaurantId, id);
         return menu;
